@@ -1,0 +1,57 @@
+name: playbucks
+description: A new and innovative music promoting platform for music lovers and artistes.
+
+publish_to: 'none'
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.19.2 <3.0.0'
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  flutter_native_splash:
+  flutter_screenutil:
+  flutter_boxicons:
+  flutter_spinkit:
+  flutter_launcher_icons:
+  flutter_riverpod:
+  go_router:
+  dio:
+  isw_mobile_sdk:
+  audioplayers:
+  audio_waveforms:
+  file_picker:
+#  spotify_sdk:
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
+
+
+  fonts:
+    - family: Nunito
+      fonts:
+        - asset: fonts/Nunito-Black.ttf
+        - asset: fonts/Nunito-Black.ttf
+        - asset: fonts/Nunito-ExtraBold.ttf
+        - asset: fonts/Nunito-ExtraLight.ttf
+        - asset: fonts/Nunito-Italic.ttf
+        - asset: fonts/Nunito-Light.ttf
+        - asset: fonts/Nunito-Medium.ttf
+        - asset: fonts/Nunito-Regular.ttf
+        - asset: fonts/Nunito-SemiBold.ttf
