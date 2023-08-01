@@ -1,8 +1,10 @@
-import 'package:audioplayers/audioplayers.dart';
+import 'package:audio_waveforms_fix/audio_waveforms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:playbucks/utils/constants.dart';
 import 'package:playbucks/utils/widgets.dart';
+
+import 'dart:developer';
 
 enum PlayMode { repeatOne, repeatAll, shuffle }
 
@@ -18,13 +20,14 @@ class MediaPlayerPage extends StatefulWidget {
 class _MediaPlayerPageState extends State<MediaPlayerPage> {
   late FixedExtentScrollController _scrollController;
   late List<String> _lyrics;
-  late AudioPlayer _player;
+  late PlayerController _playerController;
 
   bool _isLiked = false;
   bool _isPlaying = false;
   bool _initialized = false;
   PlayMode _playMode = PlayMode.repeatAll;
-  Duration _currentPosition = Duration.zero, _maxDuration = Duration.zero;
+
+  int _totalDuration = 0, _currentPosition = 0;
 
   @override
   void initState() {
@@ -36,34 +39,19 @@ class _MediaPlayerPageState extends State<MediaPlayerPage> {
     }
 
     _scrollController = FixedExtentScrollController();
+    _playerController = PlayerController();
 
-    _player = AudioPlayer();
-    _player.setSourceDeviceFile(widget.path);
-    _player.onPositionChanged.listen(
-      (event) {
-        setState(() => _currentPosition = event);
-      },
-    );
-    _player.onPlayerComplete.listen((event) {
-      if (_playMode == PlayMode.repeatOne) {
-        _player.seek(Duration.zero);
-        setState(() {
-          _currentPosition = Duration.zero;
-        });
-        _player.resume();
-      }
+    _playerController.preparePlayer(widget.path, 1.0).then((_) async {
+      _totalDuration = await _playerController.getDuration(DurationType.max);
+      _playerController.onCurrentDurationChanged
+          .listen((event) => setState(() => _currentPosition = event));
+      setState(() => _initialized = true);
     });
-    _player.onDurationChanged.listen(
-      (event) => setState(() {
-        _maxDuration = event;
-        _initialized = true;
-      }),
-    );
   }
 
   @override
   void dispose() {
-    _player.dispose();
+    _playerController.dispose();
     _scrollController.dispose();
     super.dispose();
   }
@@ -91,11 +79,6 @@ class _MediaPlayerPageState extends State<MediaPlayerPage> {
         },
       );
 
-  double get current {
-    if (_maxDuration.inMilliseconds == 0) return 0.0;
-    return _currentPosition.inMilliseconds / _maxDuration.inMilliseconds;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,9 +90,10 @@ class _MediaPlayerPageState extends State<MediaPlayerPage> {
           icon: const Icon(Icons.chevron_left_rounded),
           onPressed: () => context.router.pop(),
         ),
+        centerTitle: true,
         title: Text(
-          "Player",
-          style: context.textTheme.headlineSmall!.copyWith(fontSize: 20.sp),
+          "PLAYER",
+          style: context.textTheme.headlineSmall!.copyWith(fontSize: 16.sp),
         ),
       ),
       body: SafeArea(
@@ -166,9 +150,13 @@ class _MediaPlayerPageState extends State<MediaPlayerPage> {
                       if (!_initialized) return;
                       setState(() => _isPlaying = !_isPlaying);
                       if (_isPlaying) {
-                        _player.resume();
+                        _playerController.startPlayer(
+                          finishMode: _playMode == PlayMode.repeatOne
+                              ? FinishMode.loop
+                              : FinishMode.pause,
+                        );
                       } else {
-                        _player.pause();
+                        _playerController.pausePlayer();
                       }
                     },
                     onPrevious: () {},
@@ -191,13 +179,22 @@ class _MediaPlayerPageState extends State<MediaPlayerPage> {
               SizedBox(
                 height: 20.h,
               ),
-              RepaintBoundary(
-                child: LinearProgressIndicator(
-                  color: appRed,
-                  backgroundColor: neutral2,
-                  value: current,
-                ),
-              ),
+              _initialized
+                  ? AudioFileWaveforms(
+                      playerController: _playerController,
+                      size: Size(300.w, 60.h),
+                      enableSeekGesture: true,
+                      density: 1.2,
+                      backgroundColor: Colors.transparent,
+                      playerWaveStyle: const PlayerWaveStyle(
+                        liveWaveColor: appRed,
+                        fixedWaveColor: neutral2,
+                      ),
+                    )
+                  : Text(
+                      "Creating Waveform",
+                      style: context.textTheme.bodyMedium,
+                    ),
               SizedBox(
                 height: 10.h,
               ),

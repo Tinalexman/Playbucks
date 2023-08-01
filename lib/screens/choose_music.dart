@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:playbucks/utils/constants.dart';
 import 'package:file_picker/file_picker.dart';
 
+
 Future<String?> chooseFile() async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowedExtensions: ['mp3'],
       type: FileType.custom,
-      allowMultiple: false);
+      allowMultiple: false,
+  );
   if (result != null) {
     return result.files.single.path;
   }

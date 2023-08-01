@@ -24,8 +24,9 @@ dependencies:
   dio:
   isw_mobile_sdk:
   audioplayers:
-  audio_waveforms:
+  audio_waveforms_fix:
   file_picker:
+#  audio_video_progress_bar:
 #  spotify_sdk:
 
 
