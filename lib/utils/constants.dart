@@ -16,6 +16,14 @@ const Color statusColor = Color.fromARGB(255, 229, 229, 229);
 const Color offWhite = Color.fromRGBO(224, 224, 224, 1.0);
 
 
+const Color playerDominant = Color(0xFF90A098);
+const Color playerMutedDark = Color(0xFF685060);
+const Color playerMutedLight = Color(0xFFA0C0B0);
+
+const Color homeDominant = Color(0xFF252E33);
+const Color homeMutedDark = Color(0xFF13151C);
+
+
 extension PathExtension on String {
   String get path => "/$this";
 }
@@ -36,5 +44,5 @@ class Pages {
   static const String withdraw = 'withdraw';
   static const String deposit = 'deposit';
   static const String mediaPlayer = 'media-player';
-  static const String choose = 'chooser';
+  static const String home = 'home';
 }

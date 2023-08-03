@@ -28,7 +28,7 @@ class PlayerControl extends StatelessWidget {
             splashRadius: 25.r,
             iconSize: 25.r,
             onPressed: onPrevious,
-            icon: const Icon(Icons.skip_previous_rounded),
+            icon: const Icon(Icons.skip_previous_rounded, color: Colors.white),
           ),
           GestureDetector(
             onTap: onPlayPause,
@@ -37,12 +37,12 @@ class PlayerControl extends StatelessWidget {
               height: 50.w,
               alignment: Alignment.center,
               decoration: const BoxDecoration(
-                  shape: BoxShape.circle, color: Colors.white),
+                  shape: BoxShape.circle, color: appRed),
               child: Icon(
                 isPlaying ? Icons.pause_rounded :
                 Icons.play_arrow_rounded,
                 size: 32.r,
-                color: primary,
+                color: Colors.white,
               ),
             ),
           ),
@@ -50,7 +50,7 @@ class PlayerControl extends StatelessWidget {
             splashRadius: 25.r,
             iconSize: 25.r,
             onPressed: onNext,
-            icon: const Icon(Icons.skip_next_rounded),
+            icon: const Icon(Icons.skip_next_rounded, color: Colors.white),
           ),
         ],
       ),

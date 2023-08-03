@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:playbucks/managers/theme.dart';
 import 'package:playbucks/screens/auth/login.dart';
 import 'package:playbucks/screens/auth/register.dart';
-import 'package:playbucks/screens/choose_music.dart';
+import 'package:playbucks/screens/home/home.dart';
 import 'package:playbucks/screens/dashboard/artiste.dart';
 import 'package:playbucks/screens/dashboard/listener.dart';
 import 'package:playbucks/screens/intro/onboarding.dart';
@@ -32,7 +32,7 @@ class Playbucks extends StatelessWidget {
             darkTheme: PlaybucksTheme.dark(),
             theme: PlaybucksTheme.light(),
             routerConfig: GoRouter(
-              initialLocation: Pages.choose.path,
+              initialLocation: Pages.home.path,
               routes: [
                 GoRoute(
                   path: Pages.splash.path,
@@ -83,9 +83,9 @@ class Playbucks extends StatelessWidget {
                   },
                 ),
                 GoRoute(
-                  path: Pages.choose.path,
-                  name: Pages.choose,
-                  builder: (_, __) => const Chooser()
+                  path: Pages.home.path,
+                  name: Pages.home,
+                  builder: (_, __) => const Home()
                 )
               ],
             ),

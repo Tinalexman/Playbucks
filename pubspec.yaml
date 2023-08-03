@@ -26,8 +26,8 @@ dependencies:
   audioplayers:
   audio_waveforms_fix:
   file_picker:
-#  audio_video_progress_bar:
-#  spotify_sdk:
+  glassmorphism:
+  path_provider:
 
 
 dev_dependencies:
