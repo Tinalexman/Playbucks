@@ -20,6 +20,7 @@ dependencies:
   flutter_spinkit:
   flutter_launcher_icons:
   flutter_riverpod:
+  flutter_svg:
   go_router:
   dio:
   isw_mobile_sdk:
@@ -28,6 +29,10 @@ dependencies:
   file_picker:
   glassmorphism:
   path_provider:
+  audio_service:
+  intl:
+  url_launcher:
+
 
 
 dev_dependencies:

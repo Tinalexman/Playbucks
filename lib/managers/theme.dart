@@ -5,19 +5,19 @@ import 'package:playbucks/utils/constants.dart';
 class PlaybucksTheme
 {
   static const Map<int, Color> swatchColors = {
-    50: Color.fromRGBO(217, 74, 74, .1),
-    100: Color.fromRGBO(217, 74, 74, .2),
-    200: Color.fromRGBO(217, 74, 74, .3),
-    300: Color.fromRGBO(217, 74, 74, .4),
-    400: Color.fromRGBO(217, 74, 74, .5),
-    500: Color.fromRGBO(217, 74, 74, .6),
-    600: Color.fromRGBO(217, 74, 74, .7),
-    700: Color.fromRGBO(217, 74, 74, .8),
-    800: Color.fromRGBO(217, 74, 74, .9),
-    900: Color.fromRGBO(217, 74, 74, 1),
+    50: Color.fromRGBO(234, 163, 45, .1),
+    100: Color.fromRGBO(234, 163, 45, .2),
+    200: Color.fromRGBO(234, 163, 45, .3),
+    300: Color.fromRGBO(234, 163, 45, .4),
+    400: Color.fromRGBO(234, 163, 45, .5),
+    500: Color.fromRGBO(234, 163, 45, .6),
+    600: Color.fromRGBO(234, 163, 45, .7),
+    700: Color.fromRGBO(234, 163, 45, .8),
+    800: Color.fromRGBO(234, 163, 45, .9),
+    900: Color.fromRGBO(234, 163, 45, 1),
   };
 
-  static const MaterialColor materialColor = MaterialColor(0xFFD94A4A, swatchColors);
+  static const MaterialColor materialColor = MaterialColor(0xFFEAA32D, swatchColors);
 
   static TextTheme lightTextTheme = TextTheme(
     bodyMedium: TextStyle(
@@ -185,10 +185,10 @@ class PlaybucksTheme
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       elevation: 1.0,
       foregroundColor: theme,
-      backgroundColor: appRed,
+      backgroundColor: mainGold,
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      selectedItemColor: appRed,
+      selectedItemColor: mainGold,
       backgroundColor: theme,
     ),
     snackBarTheme: const SnackBarThemeData(
@@ -198,7 +198,7 @@ class PlaybucksTheme
       backgroundColor: theme,
     ),
     tabBarTheme: TabBarTheme(
-      indicatorColor: appRed,
+      indicatorColor: mainGold,
       labelStyle: lightTextTheme.bodyMedium,
       unselectedLabelStyle: lightTextTheme.labelMedium,
     )
@@ -224,17 +224,17 @@ class PlaybucksTheme
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         elevation: 1.0,
         foregroundColor: theme,
-        backgroundColor: appRed,
+        backgroundColor: mainGold,
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        selectedItemColor: appRed,
+        selectedItemColor: mainGold,
         backgroundColor: primary,
       ),
       drawerTheme: const DrawerThemeData(
         backgroundColor: primary,
       ),
       tabBarTheme: TabBarTheme(
-          indicatorColor: appRed,
+          indicatorColor: mainGold,
           labelStyle: darkTextTheme.bodyMedium,
         unselectedLabelStyle: darkTextTheme.labelMedium,
       )

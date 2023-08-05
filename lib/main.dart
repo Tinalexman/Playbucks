@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:playbucks/managers/theme.dart';
 import 'package:playbucks/screens/auth/login.dart';
 import 'package:playbucks/screens/auth/register.dart';
+import 'package:playbucks/screens/auth/registration.dart';
 import 'package:playbucks/screens/home/home.dart';
 import 'package:playbucks/screens/dashboard/artiste.dart';
 import 'package:playbucks/screens/dashboard/listener.dart';
@@ -29,10 +30,11 @@ class Playbucks extends StatelessWidget {
           MaterialApp.router(
             title: 'Playbucks',
             debugShowCheckedModeBanner: false,
+            debugShowMaterialGrid: false,
             darkTheme: PlaybucksTheme.dark(),
-            theme: PlaybucksTheme.light(),
+            theme: PlaybucksTheme.dark(),
             routerConfig: GoRouter(
-              initialLocation: Pages.home.path,
+              initialLocation: Pages.splash.path,
               routes: [
                 GoRoute(
                   path: Pages.splash.path,
@@ -86,7 +88,22 @@ class Playbucks extends StatelessWidget {
                   path: Pages.home.path,
                   name: Pages.home,
                   builder: (_, __) => const Home()
-                )
+                ),
+                GoRoute(
+                    path: Pages.usertype.path,
+                    name: Pages.usertype,
+                    builder: (_, __) => const UserTypePage()
+                ),
+                GoRoute(
+                    path: Pages.registerListener.path,
+                    name: Pages.registerListener,
+                    builder: (_, __) => const ListenerRegistration()
+                ),
+                GoRoute(
+                    path: Pages.registerArtiste.path,
+                    name: Pages.registerArtiste,
+                    builder: (_, __) => const ArtisteRegistration()
+                ),
               ],
             ),
           ),

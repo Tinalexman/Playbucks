@@ -43,7 +43,10 @@ class _MediaPlayerPageState extends State<MediaPlayerPage> {
     _playerController.preparePlayer(widget.path, 1.0).then((_) async {
       _totalDuration = await _playerController.getDuration(DurationType.max);
       _playerController.onCurrentDurationChanged
-          .listen((event) => setState(() => _currentPosition = event));
+          .listen((event) {
+            if(!mounted) return;
+            setState(() => _currentPosition = event);
+      });
       setState(() => _initialized = true);
     });
   }
@@ -102,7 +105,7 @@ class _MediaPlayerPageState extends State<MediaPlayerPage> {
       ),
       borderGradient: LinearGradient(
         colors: [
-          appRed.withOpacity(0.6),
+          mainGold.withOpacity(0.6),
           niceBlue.withOpacity(0.6),
           goodYellow.withOpacity(0.6)
         ],
@@ -149,7 +152,7 @@ class _MediaPlayerPageState extends State<MediaPlayerPage> {
                   height: 250.w,
                   width: 390.w,
                   decoration: BoxDecoration(
-                    color: appRed,
+                    color: mainGold,
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                   alignment: Alignment.center,
@@ -209,7 +212,7 @@ class _MediaPlayerPageState extends State<MediaPlayerPage> {
                         _isLiked
                             ? Icons.favorite_rounded
                             : Icons.favorite_border_rounded,
-                        color: _isLiked ? appRed : Colors.white,
+                        color: _isLiked ? mainGold : Colors.white,
                       ),
                       iconSize: 25.r,
                       splashRadius: 25.r,
@@ -237,7 +240,7 @@ class _MediaPlayerPageState extends State<MediaPlayerPage> {
                                 density: 1.2,
                                 backgroundColor: Colors.transparent,
                                 playerWaveStyle: const PlayerWaveStyle(
-                                  liveWaveColor: appRed,
+                                  liveWaveColor: mainGold,
                                   fixedWaveColor: neutral2,
                                   visualizerHeight: 15.0,
                                 ),
