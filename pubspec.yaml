@@ -32,6 +32,8 @@ dependencies:
   audio_service:
   intl:
   url_launcher:
+  badges:
+  equatable:
 
 
 

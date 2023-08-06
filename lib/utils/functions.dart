@@ -63,6 +63,13 @@ String formatDateString(String dateTime) {
 
 String formatDateTime(DateTime dateTime) => formatDateString(DateFormat("dd/MM/yyy").format(dateTime));
 
+String formatTime(int duration) {
+  int time = (duration * 0.001).truncate();
+  int min = (time / 60).truncate();
+  int sec = time % 60;
+  return "${min < 10 ? "0$min" : min}:${sec < 10 ? "0$sec" : sec}";
+}
+
 String month(String val) {
   int month = int.parse(val);
   switch (month) {

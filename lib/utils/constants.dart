@@ -48,6 +48,9 @@ class Pages {
   static const String usertype = 'user-type';
   static const String registerListener = 'register-listener';
   static const String registerArtiste = 'register-artiste';
+  static const String customArtistePage = 'custom-artiste';
+  static const String editProfile = 'edit-profile';
+  static const String playlist = 'playlist';
 }
 
 const String loremIpsum =
@@ -56,3 +59,22 @@ const String loremIpsum =
     "\n\nDonec convallis sem urna, a feugiat magna fermentum pharetra. Integer eu tellus consectetur, interdum arcu sit amet, rhoncus metus. Vivamus sodales, sem vel vulputate scelerisque, urna libero blandit nulla, in gravida justo mi eget est. Fusce luctus neque lobortis felis iaculis pharetra. Quisque orci magna, dignissim ac nibh at, egestas vehicula odio. Phasellus magna mi, varius a finibus a, hendrerit eu sapien. Cras ac auctor dolor, eget ornare diam. Sed non nibh ac neque pulvinar commodo quis id leo. Maecenas ultricies sapien at est venenatis placerat. Fusce consequat orci posuere, placerat lacus vitae, accumsan justo."
     "\n\nCurabitur mattis placerat fermentum. Nulla tristique interdum euismod. In tristique ex dui. Praesent condimentum fringilla nisi consequat iaculis. Sed in ex et metus viverra egestas sit amet vitae nisi. Praesent ultricies felis sit amet ligula rhoncus fermentum. Nam suscipit turpis eget turpis fringilla euismod. Duis id iaculis elit. Maecenas ac efficitur nunc, eget consequat quam. Nullam eget est eros. Integer et malesuada purus. Nam auctor ut urna at lobortis. Maecenas varius facilisis magna sit amet consequat."
     "\n\nNullam nec augue id sapien cursus egestas. Cras purus dolor, tempor a mollis at, sodales vel ex. Ut nec nisi sit amet nisl ornare accumsan a a justo. Sed ac vehicula purus. Donec et aliquet nibh, at pharetra nunc. Maecenas molestie hendrerit velit nec tristique. Aenean lobortis pellentesque sapien, vulputate scelerisque lorem rutrum sed. Maecenas eu nisl nec magna sagittis viverra nec eget elit. Nam diam nisi, ultricies id fringilla nec, aliquam at ipsum. In eget viverra leo. Pellentesque aliquet lorem turpis, nec sagittis nibh dignissim vitae. Etiam at magna sed urna sagittis accumsan non sed diam. Praesent non arcu quis nisi tempor tristique. Praesent non ex congue, ornare turpis et, condimentum ante. Aliquam dignissim, massa in egestas fermentum, odio odio posuere erat, eu posuere dolor leo finibus turpis.";
+
+
+const Map<String, dynamic> userData = {
+  "id" : "",
+  "fullName" : "Asake",
+  "username" : "asake",
+  "cover" : "",
+  "bio" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+      "Pellentesque feugiat at risus sit amet scelerisque. "
+      "Curabitur sollicitudin tincidunt erat, sed vehicula ligula "
+      "ullamcorper at. In in tortor ipsum. Nullam et malesuada libero. "
+      "Curabitur ultricies erat dui, sit amet porttitor neque finibus sit amet. "
+      "Integer id massa risus. Donec a justo libero. Ut et gravida massa. "
+      "Sed vehicula, mauris at blandit accumsan, est odio condimentum urna, "
+      "ut ornare ex elit non ante. Aenean pellentesque, dui ac ornare placerat, "
+      "lectus elit volutpat urna, at convallis eros nisl vitae magna. "
+      "Morbi massa odio, pellentesque a orci nec, dignissim lacinia ipsum.",
+  "balance" : 0.0,
+};

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:playbucks/components/user.dart';
+import 'package:playbucks/managers/providers.dart';
 import 'package:playbucks/managers/theme.dart';
 import 'package:playbucks/screens/auth/login.dart';
 import 'package:playbucks/screens/auth/register.dart';
@@ -14,6 +16,7 @@ import 'package:playbucks/screens/intro/splash.dart';
 import 'package:playbucks/screens/payment/deposit.dart';
 import 'package:playbucks/screens/payment/withdraw.dart';
 import 'package:playbucks/screens/player/player.dart';
+import 'package:playbucks/screens/player/album.dart';
 import 'package:playbucks/utils/constants.dart';
 
 void main() {
@@ -87,23 +90,41 @@ class Playbucks extends StatelessWidget {
                 GoRoute(
                   path: Pages.home.path,
                   name: Pages.home,
-                  builder: (_, __) => const Home()
+                  builder: (_, __) => const Home(),
                 ),
                 GoRoute(
                     path: Pages.usertype.path,
                     name: Pages.usertype,
-                    builder: (_, __) => const UserTypePage()
+                    builder: (_, __) => const UserTypePage(),
                 ),
                 GoRoute(
                     path: Pages.registerListener.path,
                     name: Pages.registerListener,
-                    builder: (_, __) => const ListenerRegistration()
+                    builder: (_, __) => const ListenerRegistration(),
                 ),
                 GoRoute(
                     path: Pages.registerArtiste.path,
                     name: Pages.registerArtiste,
-                    builder: (_, __) => const ArtisteRegistration()
+                    builder: (_, __) => const ArtisteRegistration(),
                 ),
+                GoRoute(
+                  path: Pages.editProfile.path,
+                  name: Pages.editProfile,
+                  builder: (_, __) => const EditProfile(),
+                ),
+                GoRoute(
+                  path: Pages.playlist.path,
+                  name: Pages.playlist,
+                  builder: (_, __) => const AlbumPage(),
+                ),
+                GoRoute(
+                  path: Pages.customArtistePage.path,
+                  name: Pages.customArtistePage,
+                  builder: (_, state) {
+                    Map<String, dynamic> data = userData; //   state.extra! as Map<String, dynamic>;
+                    return CustomArtistePage(artiste: User.fromJson(data));
+                  },
+                )
               ],
             ),
           ),

@@ -746,8 +746,10 @@ class _ListenerDemographicPageState extends State<_ListenerDemographicPage> {
       _occupations,
       _education,
       _languages,
-      _notification;
-  int? _genderIndex, _occupationIndex, _educationIndex, _notificationIndex;
+      _notification,
+      _dsp
+  ;
+  int? _genderIndex, _occupationIndex, _educationIndex, _notificationIndex, _dspIndex;
 
   @override
   void initState() {
@@ -783,6 +785,12 @@ class _ListenerDemographicPageState extends State<_ListenerDemographicPage> {
       Holder(content: "Sometimes"),
       Holder(content: "Often"),
       Holder(content: "Always"),
+    ];
+
+    _dsp = [
+      Holder(content: "Spotify"),
+      Holder(content: "Apple Music"),
+      Holder(content: "Audiomack"),
     ];
   }
 
@@ -1025,6 +1033,46 @@ class _ListenerDemographicPageState extends State<_ListenerDemographicPage> {
                   ),
                 ),
                 SizedBox(
+                  height: 20.h,
+                ),
+                Text(
+                  "Digital Service Platform",
+                  style: context.textTheme.bodyLarge!
+                      .copyWith(fontWeight: FontWeight.w700),
+                ),
+                Text(
+                  "Which DSP do you want to receive streams and promotional content from?",
+                  style: context.textTheme.bodyMedium,
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Wrap(
+                  spacing: 5.0,
+                  children: List.generate(
+                    _dsp.length,
+                        (index) => GestureDetector(
+                      onTap: () => setState(() => _dspIndex = index),
+                      child: Chip(
+                        label: Text(
+                          _dsp[index].content,
+                          style: context.textTheme.bodyMedium!.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: (_dspIndex == null ||
+                                  _dspIndex! != index)
+                                  ? null
+                                  : Colors.black),
+                        ),
+                        elevation: 1,
+                        backgroundColor: (_dspIndex == null ||
+                            _dspIndex! != index)
+                            ? neutral2
+                            : mainGold,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
                   height: 80.h,
                 ),
                 Align(
@@ -1190,7 +1238,8 @@ class _ListenerRegistrationState extends State<ListenerRegistration> {
       _ListenerDemographicPage(onNext: next),
       PrivacyPolicyPage(
           onFinish: () => context.router.pushReplacementNamed(Pages.home),
-          header: "Privacy and Data Consent (5 of 5)"),
+          header: "Privacy and Data Consent (5 of 5)",
+      ),
     ];
   }
 
@@ -1215,45 +1264,12 @@ class _ArtisteProfileSetup extends StatefulWidget {
 }
 
 class _ArtisteProfileSetupState extends State<_ArtisteProfileSetup> {
-  final TextEditingController _name = TextEditingController();
-  late List<Holder> _primary, _secondary, _styles;
-  int? _primaryIndex, _secondaryIndex;
+  final TextEditingController _name = TextEditingController(), _username = TextEditingController();
   String? _coverImage;
 
   @override
-  void initState() {
-    super.initState();
-    _primary = [
-      Holder(content: "Afro-beats"),
-      Holder(content: "Pop"),
-      Holder(content: "Hip-Hop/Rap"),
-      Holder(content: "Electronic/Dance"),
-      Holder(content: "R&B/Soul"),
-      Holder(content: "Country"),
-      Holder(content: "Jazz"),
-      Holder(content: "Classical"),
-      Holder(content: "Indie/Alternative"),
-      Holder(content: "Reggae"),
-      Holder(content: "Metal"),
-      Holder(content: "Folk"),
-      Holder(content: "Alternative Fusion"),
-    ];
-
-    _secondary = List.of(_primary);
-
-    _styles = [
-      Holder(content: "Upbeat and Energetic"),
-      Holder(content: "Chill and Relaxing"),
-      Holder(content: "Melancholic and Emotional"),
-      Holder(content: "Experimental and Avant-Garde"),
-      Holder(content: "Dance and Party"),
-      Holder(content: "Acoustic and Unplugged"),
-      Holder(content: "Powerful and Vocals-driven")
-    ];
-  }
-
-  @override
   void dispose() {
+    _username.dispose();
     _name.dispose();
     super.dispose();
   }
@@ -1316,7 +1332,8 @@ class _ArtisteProfileSetupState extends State<_ArtisteProfileSetup> {
                                 ? null
                                 : DecorationImage(
                                     image: FileImage(File(_coverImage!)),
-                                    fit: BoxFit.cover)),
+                                    fit: BoxFit.cover),
+                        ),
                         child: _coverImage == null
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1360,6 +1377,19 @@ class _ArtisteProfileSetupState extends State<_ArtisteProfileSetup> {
                   width: 250.w,
                   height: 35.h,
                   hint: "Enter your name or your band name.",
+                ),
+                SizedBox(height: 20.h),
+                Text(
+                  "Username (optional)",
+                  style: context.textTheme.bodyLarge!
+                      .copyWith(fontWeight: FontWeight.w700),
+                ),
+                SizedBox(height: 10.h),
+                SpecialForm(
+                  controller: _username,
+                  width: 250.w,
+                  height: 35.h,
+                  hint: "Enter your username.",
                 ),
                 SizedBox(
                   height: 80.h,
@@ -1779,7 +1809,8 @@ class _ArtisteBiographyPageState extends State<_ArtisteBiographyPage> {
                         controller: _spotify,
                         width: 250.w,
                         height: 35.h,
-                        hint: "Enter your Spotify profile link"),
+                        hint: "Enter your Spotify profile link",
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -1791,12 +1822,14 @@ class _ArtisteBiographyPageState extends State<_ArtisteBiographyPage> {
                   children: [
                     Text("Apple Music",
                         style: context.textTheme.bodyMedium!
-                            .copyWith(fontWeight: FontWeight.w600)),
+                            .copyWith(fontWeight: FontWeight.w600),
+                    ),
                     SpecialForm(
                         controller: _apple,
                         width: 250.w,
                         height: 35.h,
-                        hint: "Enter your Apple Music profile link"),
+                        hint: "Enter your Apple Music profile link",
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -1806,14 +1839,16 @@ class _ArtisteBiographyPageState extends State<_ArtisteBiographyPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("SoundCloud",
+                    Text("Audiomack",
                         style: context.textTheme.bodyMedium!
-                            .copyWith(fontWeight: FontWeight.w600)),
+                            .copyWith(fontWeight: FontWeight.w600),
+                    ),
                     SpecialForm(
                         controller: _sc,
                         width: 250.w,
                         height: 35.h,
-                        hint: "Enter your SoundCloud profile link"),
+                        hint: "Enter your Audiomack profile link",
+                    ),
                   ],
                 ),
                 SizedBox(

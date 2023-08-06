@@ -1,11 +1,6 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:playbucks/api/file_manager.dart';
 import 'package:playbucks/utils/constants.dart';
-
-import 'functions.dart';
 
 class PlayerControl extends StatelessWidget {
   final VoidCallback onPrevious;
@@ -186,5 +181,121 @@ class Holder {
   bool selected;
 
   Holder({required this.content, this.selected = false});
+}
+
+
+class ComboBox extends StatefulWidget {
+  final String hint;
+  final List<String> items;
+  final Widget? prefix;
+  final Function? onChanged;
+  final double width;
+  final double? height;
+  final Function? onValidate;
+  final String? initial;
+
+  const ComboBox(
+      {Key? key,
+        this.hint = "",
+        required this.items,
+        this.height,
+        required this.width,
+        this.onValidate,
+        this.prefix,
+        this.initial,
+        this.onChanged,
+      })
+      : super(key: key);
+
+  @override
+  State<ComboBox> createState() => _ComboBoxState();
+}
+
+class _ComboBoxState extends State<ComboBox> {
+  String? _selection;
+
+  @override
+  void initState() {
+    super.initState();
+    _selection = widget.initial;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: widget.height,
+      width: widget.width,
+      child: DropdownButtonFormField<String>(
+        hint: Text(widget.hint,
+            style: Theme.of(context)
+                .textTheme
+                .labelSmall!
+                .copyWith(fontWeight: FontWeight.w200)),
+        value: _selection,
+        style: context.textTheme.bodySmall,
+        decoration: InputDecoration(
+          fillColor: Colors.transparent,
+          hintStyle: Theme.of(context)
+              .textTheme
+              .labelSmall!
+              .copyWith(fontWeight: FontWeight.w200),
+          errorMaxLines: 1,
+          errorStyle: const TextStyle(height: 0, fontSize: 0),
+          filled: true,
+          prefixIcon: widget.prefix,
+          border: OutlineInputBorder(
+              borderSide: const BorderSide(width: 1, color: theme),
+              borderRadius: BorderRadius.circular(6.r)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(width: 1, color: theme),
+              borderRadius: BorderRadius.circular(6.r)),
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(width: 1, color: theme),
+            borderRadius: BorderRadius.circular(6.r),
+          ),
+        ),
+        validator: (val) {
+          if (widget.onValidate == null) return null;
+          return widget.onValidate!(val);
+        },
+        items: widget.items
+            .map(
+              (item) => DropdownMenuItem<String>(
+            value: item,
+            child: Text(item),
+          ),
+        )
+            .toList(),
+        onChanged: (item) {
+          if (widget.onChanged != null) {
+            widget.onChanged!(item);
+          }
+        },
+      ),
+    );
+  }
+}
+
+
+class Copyright extends StatelessWidget {
+  const Copyright({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      alignment: WrapAlignment.center,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        Icon(Icons.copyright, color: Colors.grey, size: 16.r),
+        SizedBox(width: 3.w),
+        Text("${DateTime.now().year}. Playbucks. All rights reserved",
+            style: context
+                .textTheme
+                .bodySmall!
+                .copyWith(color: Colors.grey),
+        ),
+      ],
+    );
+  }
 }
 

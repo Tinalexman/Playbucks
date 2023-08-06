@@ -4,6 +4,7 @@ import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:playbucks/utils/constants.dart';
 import 'package:playbucks/utils/widgets.dart';
+import 'package:playbucks/utils/functions.dart';
 
 enum PlayMode { repeatOne, repeatAll, shuffle }
 
@@ -80,13 +81,6 @@ class _MediaPlayerPageState extends State<MediaPlayerPage> {
           }
         },
       );
-
-  String _time(int duration) {
-    int time = (duration * 0.001).truncate();
-    int min = (time / 60).truncate();
-    int sec = time % 60;
-    return "${min < 10 ? "0$min" : min}:${sec < 10 ? "0$sec" : sec}";
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -229,7 +223,7 @@ class _MediaPlayerPageState extends State<MediaPlayerPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Text(
-                                _time(_currentPosition),
+                                formatTime(_currentPosition),
                                 style: context.textTheme.bodySmall!
                                     .copyWith(fontWeight: FontWeight.w600, color: Colors.white),
                               ),
@@ -246,7 +240,7 @@ class _MediaPlayerPageState extends State<MediaPlayerPage> {
                                 ),
                               ),
                               Text(
-                                _time(_totalDuration),
+                                formatTime(_totalDuration),
                                 style: context.textTheme.bodySmall!
                                     .copyWith(fontWeight: FontWeight.w600, color: Colors.white),
                               ),

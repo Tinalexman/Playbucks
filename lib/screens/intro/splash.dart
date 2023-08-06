@@ -32,7 +32,6 @@ class _SplashPageState extends State<SplashPage>
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(0.1, 0.6, curve: Curves.bounceOut),
-        reverseCurve: const Interval(0.45, 1.0, curve: Curves.bounceOut),
       ),
     );
 
@@ -40,19 +39,21 @@ class _SplashPageState extends State<SplashPage>
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(0.45, 1.0, curve: Curves.easeIn),
-        reverseCurve: const Interval(0.1, 0.6, curve: Curves.easeOut),
       ),
     );
 
-    _controller.forward();
-    _controller.addListener(refresh);
+    Future.delayed(const Duration(milliseconds: 2500), () {
+      _controller.forward();
+      _controller.addListener(refresh);
 
-    Future.delayed(
-      const Duration(seconds: 5),
-      () => _controller.reverse().then(
-            (_) => context.router.pushNamed(Pages.login),
-          ),
-    );
+      Future.delayed(
+        const Duration(seconds: 5),
+            () => _controller.reverse().then(
+              (_) => context.router.pushNamed(Pages.login),
+        ),
+      );
+
+    });
   }
 
   void refresh() => setState(() {});
