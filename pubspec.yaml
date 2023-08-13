@@ -34,7 +34,7 @@ dependencies:
   url_launcher:
   badges:
   equatable:
-
+  palette_generator:
 
 
 dev_dependencies:

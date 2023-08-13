@@ -37,7 +37,7 @@ class Playbucks extends StatelessWidget {
             darkTheme: PlaybucksTheme.dark(),
             theme: PlaybucksTheme.dark(),
             routerConfig: GoRouter(
-              initialLocation: Pages.splash.path,
+              initialLocation: Pages.playlist.path,
               routes: [
                 GoRoute(
                   path: Pages.splash.path,

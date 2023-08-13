@@ -42,7 +42,7 @@ class _SplashPageState extends State<SplashPage>
       ),
     );
 
-    Future.delayed(const Duration(milliseconds: 2500), () {
+    Future.delayed(const Duration(milliseconds: 1500), () {
       _controller.forward();
       _controller.addListener(refresh);
 
