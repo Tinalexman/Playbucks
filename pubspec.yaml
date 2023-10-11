@@ -23,7 +23,6 @@ dependencies:
   flutter_svg:
   go_router:
   dio:
-  isw_mobile_sdk:
   audioplayers:
   audio_waveforms_fix:
   file_picker:
@@ -34,7 +33,10 @@ dependencies:
   url_launcher:
   badges:
   equatable:
-  palette_generator:
+  flex_color_scheme:
+  animated_switcher_plus:
+  dropdown_button2:
+  
 
 
 dev_dependencies:
@@ -43,6 +45,21 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
 
+
+flutter_icons:
+  image_path_android: "images/logo.png"
+  image_path_ios: "images/logo.png"
+  android: true
+  ios: true
+  adaptive_icon_background: "#1E1E1E"
+  adaptive_icon_foreground: "images/logo.png"
+  min_sdk_android: 29
+  remove_alpha_ios: true
+
+flutter_native_splash:
+  color: "#121113"
+  android: true
+  ios: true
 
 flutter:
   uses-material-design: true

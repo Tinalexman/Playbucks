@@ -1,6 +1,13 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:playbucks/utils/constants.dart';
+
+final Widget loader = SpinKitFadingFour(
+  color: mainGold,
+  size: 25.r,
+);
 
 class PlayerControl extends StatelessWidget {
   final VoidCallback onPrevious;
@@ -133,7 +140,7 @@ class SpecialForm extends StatelessWidget {
         decoration: InputDecoration(
           errorMaxLines: 1,
           errorStyle: const TextStyle(height: 0, fontSize: 0),
-          fillColor: fillColor ?? Colors.transparent,
+          fillColor: fillColor ?? fadedPrimary,
           filled: true,
           contentPadding:
               padding ?? EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
@@ -141,23 +148,23 @@ class SpecialForm extends StatelessWidget {
           suffixIcon: suffix,
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: borderColor ?? offWhite,
+              color: borderColor ?? Colors.transparent,
             ),
           ),
           border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: borderColor ?? offWhite,
+              color: borderColor ?? Colors.transparent,
             ),
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: borderColor ?? offWhite,
+              color: borderColor ?? Colors.transparent,
             ),
           ),
           hintText: hint,
           hintStyle: hintStyle ??
-              context.textTheme.labelMedium!
-                  .copyWith(fontWeight: FontWeight.w200),
+              context.textTheme.bodyMedium!
+                  .copyWith(fontWeight: FontWeight.w300, color: theme60),
         ),
         onChanged: (value) {
           if (onChange == null) return;
@@ -183,99 +190,151 @@ class Holder {
   Holder({required this.content, this.selected = false});
 }
 
-
-class ComboBox extends StatefulWidget {
+class ComboBox extends StatelessWidget {
   final String hint;
-  final List<String> items;
-  final Widget? prefix;
-  final Function? onChanged;
-  final double width;
-  final double? height;
-  final Function? onValidate;
-  final String? initial;
+  final String? value;
+  final List<String> dropdownItems;
+  final ValueChanged<String?>? onChanged;
+  final DropdownButtonBuilder? selectedItemBuilder;
+  final Alignment? hintAlignment;
+  final Alignment? valueAlignment;
+  final double? buttonHeight, buttonWidth;
+  final EdgeInsetsGeometry? buttonPadding;
+  final BoxDecoration? buttonDecoration;
+  final int? buttonElevation;
+  final Widget? icon;
+  final double? iconSize;
+  final Color? iconEnabledColor;
+  final Color? iconDisabledColor;
+  final double? itemHeight;
+  final EdgeInsetsGeometry? itemPadding;
+  final double? dropdownHeight, dropdownWidth;
+  final EdgeInsetsGeometry? dropdownPadding;
+  final BoxDecoration? dropdownDecoration;
+  final int? dropdownElevation;
+  final Radius? scrollbarRadius;
+  final double? scrollbarThickness;
+  final bool? scrollbarAlwaysShow;
+  final Offset offset;
+  final bool noDecoration;
 
-  const ComboBox(
-      {Key? key,
-        this.hint = "",
-        required this.items,
-        this.height,
-        required this.width,
-        this.onValidate,
-        this.prefix,
-        this.initial,
-        this.onChanged,
-      })
-      : super(key: key);
-
-  @override
-  State<ComboBox> createState() => _ComboBoxState();
-}
-
-class _ComboBoxState extends State<ComboBox> {
-  String? _selection;
-
-  @override
-  void initState() {
-    super.initState();
-    _selection = widget.initial;
-  }
+  const ComboBox({
+    required this.hint,
+    required this.value,
+    required this.dropdownItems,
+    required this.onChanged,
+    this.noDecoration = false,
+    this.selectedItemBuilder,
+    this.hintAlignment,
+    this.valueAlignment,
+    this.buttonHeight,
+    this.buttonWidth,
+    this.buttonPadding,
+    this.buttonDecoration,
+    this.buttonElevation,
+    this.icon,
+    this.iconSize,
+    this.iconEnabledColor,
+    this.iconDisabledColor,
+    this.itemHeight,
+    this.itemPadding,
+    this.dropdownHeight,
+    this.dropdownWidth,
+    this.dropdownPadding,
+    this.dropdownDecoration,
+    this.dropdownElevation,
+    this.scrollbarRadius,
+    this.scrollbarThickness,
+    this.scrollbarAlwaysShow,
+    this.offset = Offset.zero,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: widget.height,
-      width: widget.width,
-      child: DropdownButtonFormField<String>(
-        hint: Text(widget.hint,
-            style: Theme.of(context)
-                .textTheme
-                .labelSmall!
-                .copyWith(fontWeight: FontWeight.w200)),
-        value: _selection,
-        style: context.textTheme.bodySmall,
-        decoration: InputDecoration(
-          fillColor: Colors.transparent,
-          hintStyle: Theme.of(context)
-              .textTheme
-              .labelSmall!
-              .copyWith(fontWeight: FontWeight.w200),
-          errorMaxLines: 1,
-          errorStyle: const TextStyle(height: 0, fontSize: 0),
-          filled: true,
-          prefixIcon: widget.prefix,
-          border: OutlineInputBorder(
-              borderSide: const BorderSide(width: 1, color: theme),
-              borderRadius: BorderRadius.circular(6.r)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(width: 1, color: theme),
-              borderRadius: BorderRadius.circular(6.r)),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(width: 1, color: theme),
-            borderRadius: BorderRadius.circular(6.r),
+    return DropdownButtonHideUnderline(
+      child: DropdownButton2<String>(
+        isExpanded: true,
+        hint: Container(
+          alignment: hintAlignment,
+          child: Text(
+            hint,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            style: context.textTheme.bodyMedium!.copyWith(
+                fontWeight: FontWeight.w500, color: theme.withOpacity(0.6)),
           ),
         ),
-        validator: (val) {
-          if (widget.onValidate == null) return null;
-          return widget.onValidate!(val);
-        },
-        items: widget.items
+        value: value,
+        items: dropdownItems
             .map(
-              (item) => DropdownMenuItem<String>(
-            value: item,
-            child: Text(item),
-          ),
-        )
+              (String item) => DropdownMenuItem<String>(
+                value: item,
+                child: Container(
+                  alignment: valueAlignment,
+                  child: Text(
+                    item,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: context.textTheme.bodyMedium!
+                        .copyWith(fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
+            )
             .toList(),
-        onChanged: (item) {
-          if (widget.onChanged != null) {
-            widget.onChanged!(item);
-          }
-        },
+        onChanged: onChanged,
+        selectedItemBuilder: selectedItemBuilder,
+        buttonStyleData: ButtonStyleData(
+          height: (noDecoration) ? null : buttonHeight ?? 40,
+          width: (noDecoration) ? 80 : buttonWidth ?? 140,
+          padding: (noDecoration)
+              ? null
+              : buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
+          decoration: (noDecoration)
+              ? null
+              : buttonDecoration ??
+                  BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.r),
+                      color: fadedPrimary,
+                  ),
+          elevation: buttonElevation,
+        ),
+        iconStyleData: IconStyleData(
+          icon: icon ?? const Icon(Icons.arrow_drop_down),
+          iconSize: iconSize ?? 14,
+          iconEnabledColor: iconEnabledColor,
+          iconDisabledColor: iconDisabledColor,
+        ),
+        dropdownStyleData: DropdownStyleData(
+          maxHeight: dropdownHeight ?? 200,
+          width: dropdownWidth ?? 140,
+          padding: dropdownPadding,
+          decoration: dropdownDecoration ??
+              BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+              ),
+          elevation: dropdownElevation ?? 8,
+          //Null or Offset(0, 0) will open just under the button. You can edit as you want.
+          offset: offset,
+          scrollbarTheme: ScrollbarThemeData(
+            radius: scrollbarRadius ?? const Radius.circular(40),
+            thickness: scrollbarThickness != null
+                ? MaterialStateProperty.all<double>(scrollbarThickness!)
+                : null,
+            thumbVisibility: scrollbarAlwaysShow != null
+                ? MaterialStateProperty.all<bool>(scrollbarAlwaysShow!)
+                : null,
+          ),
+        ),
+        menuItemStyleData: MenuItemStyleData(
+          height: itemHeight ?? 40,
+          padding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
+        ),
       ),
     );
   }
 }
-
 
 class Copyright extends StatelessWidget {
   const Copyright({Key? key}) : super(key: key);
@@ -288,14 +347,11 @@ class Copyright extends StatelessWidget {
       children: [
         Icon(Icons.copyright, color: Colors.grey, size: 16.r),
         SizedBox(width: 3.w),
-        Text("${DateTime.now().year}. Playbucks. All rights reserved",
-            style: context
-                .textTheme
-                .bodySmall!
-                .copyWith(color: Colors.grey),
+        Text(
+          "${DateTime.now().year}. Playbucks. All rights reserved",
+          style: context.textTheme.bodySmall!.copyWith(color: Colors.grey),
         ),
       ],
     );
   }
 }
-

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -23,8 +24,115 @@ void main() {
   runApp(const ProviderScope(child: Playbucks()));
 }
 
-class Playbucks extends StatelessWidget {
+class Playbucks extends StatefulWidget {
   const Playbucks({Key? key}) : super(key: key);
+
+  @override
+  State<Playbucks> createState() => _PlaybucksState();
+}
+
+
+class _PlaybucksState extends State<Playbucks> {
+
+  late GoRouter router;
+
+  @override
+  void initState() {
+    super.initState();
+    router = GoRouter(
+      initialLocation: Pages.splash.path,
+      routes: [
+        GoRoute(
+          path: Pages.splash.path,
+          name: Pages.splash,
+          builder: (_, __) => const SplashPage(),
+        ),
+        GoRoute(
+          path: Pages.onboarding.path,
+          name: Pages.onboarding,
+          builder: (_, __) => const OnboardingScreen(),
+        ),
+        GoRoute(
+          path: Pages.login.path,
+          name: Pages.login,
+          builder: (_, __) => const LoginPage(),
+        ),
+        GoRoute(
+          path: Pages.register.path,
+          name: Pages.register,
+          builder: (_, __) => const RegisterPage(),
+        ),
+        GoRoute(
+          path: Pages.artisteDashboard.path,
+          name: Pages.artisteDashboard,
+          builder: (_, __) => const ArtisteDashboard(),
+        ),
+        GoRoute(
+          path: Pages.listenerDashboard.path,
+          name: Pages.listenerDashboard,
+          builder: (_, __) => const ListenerDashboard(),
+        ),
+        GoRoute(
+          path: Pages.deposit.path,
+          name: Pages.deposit,
+          builder: (_, __) => const DepositPage(),
+        ),
+        GoRoute(
+          path: Pages.withdraw.path,
+          name: Pages.withdraw,
+          builder: (_, __) => const WithdrawPage(),
+        ),
+        GoRoute(
+          path: Pages.mediaPlayer.path,
+          name: Pages.mediaPlayer,
+          builder: (_, state) {
+            String path = state.extra as String;
+            return MediaPlayerPage(path: path);
+          },
+        ),
+        GoRoute(
+          path: Pages.home.path,
+          name: Pages.home,
+          builder: (_, __) => const Home(),
+        ),
+        GoRoute(
+          path: Pages.usertype.path,
+          name: Pages.usertype,
+          builder: (_, __) => const UserTypePage(),
+        ),
+        GoRoute(
+          path: Pages.registerListener.path,
+          name: Pages.registerListener,
+          builder: (_, __) => const ListenerRegistration(),
+        ),
+        GoRoute(
+          path: Pages.registerArtiste.path,
+          name: Pages.registerArtiste,
+          builder: (_, __) => const ArtisteRegistration(),
+        ),
+        GoRoute(
+          path: Pages.editProfile.path,
+          name: Pages.editProfile,
+          builder: (_, __) => const EditProfile(),
+        ),
+        GoRoute(
+          path: Pages.playlist.path,
+          name: Pages.playlist,
+          builder: (_, __) => const AlbumPage(),
+        ),
+        GoRoute(
+          path: Pages.customArtistePage.path,
+          name: Pages.customArtistePage,
+          builder: (_, state) {
+            Map<String, dynamic> data = userData; //   state.extra! as Map<String, dynamic>;
+            return CustomArtistePage(artiste: User.fromJson(data));
+          },
+        )
+      ],
+    );
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,102 +142,20 @@ class Playbucks extends StatelessWidget {
             title: 'Playbucks',
             debugShowCheckedModeBanner: false,
             debugShowMaterialGrid: false,
-            darkTheme: PlaybucksTheme.dark(),
-            theme: PlaybucksTheme.dark(),
-            routerConfig: GoRouter(
-              initialLocation: Pages.playlist.path,
-              routes: [
-                GoRoute(
-                  path: Pages.splash.path,
-                  name: Pages.splash,
-                  builder: (_, __) => const SplashPage(),
-                ),
-                GoRoute(
-                  path: Pages.onboarding.path,
-                  name: Pages.onboarding,
-                  builder: (_, __) => const OnboardingScreen(),
-                ),
-                GoRoute(
-                  path: Pages.login.path,
-                  name: Pages.login,
-                  builder: (_, __) => const LoginPage(),
-                ),
-                GoRoute(
-                  path: Pages.register.path,
-                  name: Pages.register,
-                  builder: (_, __) => const RegisterPage(),
-                ),
-                GoRoute(
-                  path: Pages.artisteDashboard.path,
-                  name: Pages.artisteDashboard,
-                  builder: (_, __) => const ArtisteDashboard(),
-                ),
-                GoRoute(
-                  path: Pages.listenerDashboard.path,
-                  name: Pages.listenerDashboard,
-                  builder: (_, __) => const ListenerDashboard(),
-                ),
-                GoRoute(
-                  path: Pages.deposit.path,
-                  name: Pages.deposit,
-                  builder: (_, __) => const DepositPage(),
-                ),
-                GoRoute(
-                  path: Pages.withdraw.path,
-                  name: Pages.withdraw,
-                  builder: (_, __) => const WithdrawPage(),
-                ),
-                GoRoute(
-                  path: Pages.mediaPlayer.path,
-                  name: Pages.mediaPlayer,
-                  builder: (_, state) {
-                    String path = state.extra as String;
-                    return MediaPlayerPage(path: path);
-                  },
-                ),
-                GoRoute(
-                  path: Pages.home.path,
-                  name: Pages.home,
-                  builder: (_, __) => const Home(),
-                ),
-                GoRoute(
-                    path: Pages.usertype.path,
-                    name: Pages.usertype,
-                    builder: (_, __) => const UserTypePage(),
-                ),
-                GoRoute(
-                    path: Pages.registerListener.path,
-                    name: Pages.registerListener,
-                    builder: (_, __) => const ListenerRegistration(),
-                ),
-                GoRoute(
-                    path: Pages.registerArtiste.path,
-                    name: Pages.registerArtiste,
-                    builder: (_, __) => const ArtisteRegistration(),
-                ),
-                GoRoute(
-                  path: Pages.editProfile.path,
-                  name: Pages.editProfile,
-                  builder: (_, __) => const EditProfile(),
-                ),
-                GoRoute(
-                  path: Pages.playlist.path,
-                  name: Pages.playlist,
-                  builder: (_, __) => const AlbumPage(),
-                ),
-                GoRoute(
-                  path: Pages.customArtistePage.path,
-                  name: Pages.customArtistePage,
-                  builder: (_, state) {
-                    Map<String, dynamic> data = userData; //   state.extra! as Map<String, dynamic>;
-                    return CustomArtistePage(artiste: User.fromJson(data));
-                  },
-                )
-              ],
+            darkTheme: FlexThemeData.dark(
+              fontFamily: "Nunito",
+              useMaterial3: true,
+              scheme: FlexScheme.gold,
             ),
+            theme: FlexThemeData.dark(
+              fontFamily: "Nunito",
+              useMaterial3: true,
+              scheme: FlexScheme.gold,
+            ),
+            routerConfig: router,
           ),
       splitScreenMode: true,
-      designSize: const Size(390, 844),
+      designSize: const Size(375, 812),
       minTextAdapt: true,
     );
   }

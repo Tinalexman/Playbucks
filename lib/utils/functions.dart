@@ -5,30 +5,28 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'package:playbucks/utils/constants.dart';
 
-
-void showError(BuildContext context, String message)
-{
+void showError(BuildContext context, String message) {
   HapticFeedback.heavyImpact();
-  context.messenger.showSnackBar(SnackBar(
-    content: Text(message),
-    duration: const Duration(seconds: 1),
-    dismissDirection: DismissDirection.vertical,
-  ),);
+  context.messenger.showSnackBar(
+    SnackBar(
+      content: Text(message),
+      duration: const Duration(seconds: 1),
+      dismissDirection: DismissDirection.vertical,
+    ),
+  );
 }
 
 void unFocus() => FocusManager.instance.primaryFocus?.unfocus();
 
-String formatAmount(String price)
-{
+String formatAmount(String price) {
   String priceInText = "";
   int counter = 0;
-  for(int i = (price.length - 1);  i >= 0; i--)
-  {
+  for (int i = (price.length - 1); i >= 0; i--) {
     counter++;
     String str = price[i];
-    if((counter % 3) != 0 && i !=0) {
+    if ((counter % 3) != 0 && i != 0) {
       priceInText = "$str$priceInText";
-    } else if(i == 0 ) {
+    } else if (i == 0) {
       priceInText = "$str$priceInText";
     } else {
       priceInText = ",$str$priceInText";
@@ -37,12 +35,13 @@ String formatAmount(String price)
   return priceInText.trim();
 }
 
-String formatLocation(String location, {String separate = "#", String format = ", "}) {
+String formatLocation(String location,
+    {String separate = "#", String format = ", "}) {
   List<String> split = location.split(separate);
   StringBuffer buffer = StringBuffer();
-  for(int i = 0; i < split.length; ++i) {
+  for (int i = 0; i < split.length; ++i) {
     buffer.write(split[i]);
-    if(i != split.length - 1) {
+    if (i != split.length - 1) {
       buffer.write(format);
     }
   }
@@ -51,17 +50,19 @@ String formatLocation(String location, {String separate = "#", String format = "
 
 String currency() => NumberFormat.simpleCurrency(name: "NGN").currencySymbol;
 
-String formatDateString(String dateTime) {
+String formatDateString(String dateTime, {bool shorten = false, bool fancy = false}) {
   int firIndex = dateTime.indexOf("/");
   String d = dateTime.substring(0, firIndex);
   int secIndex = dateTime.indexOf("/", firIndex + 1);
   String m = dateTime.substring(firIndex + 1, secIndex);
   String y = dateTime.substring(secIndex + 1);
 
-  return "${month(m)} ${day(d)}, $y";
+  return !fancy ? "${month(m, shorten)} ${day(d)}, $y" : "${day(d)} of ${month(m, shorten)}, $y";
 }
 
-String formatDateTime(DateTime dateTime) => formatDateString(DateFormat("dd/MM/yyy").format(dateTime));
+String formatDateTime(DateTime dateTime, {bool shorten = false, bool fancy = false}) =>
+    formatDateString(DateFormat("dd/MM/yyy").format(dateTime),
+        shorten: shorten, fancy: fancy);
 
 String formatTime(int duration) {
   int time = (duration * 0.001).truncate();
@@ -70,33 +71,33 @@ String formatTime(int duration) {
   return "${min < 10 ? "0$min" : min}:${sec < 10 ? "0$sec" : sec}";
 }
 
-String month(String val) {
+String month(String val, bool shorten) {
   int month = int.parse(val);
   switch (month) {
     case 1:
-      return "January";
+      return shorten ? "Jan" : "January";
     case 2:
-      return "February";
+      return shorten ? "Feb" : "February";
     case 3:
-      return "March";
+      return shorten ? "Mar" : "March";
     case 4:
-      return "April";
+      return shorten ? "Apr" : "April";
     case 5:
       return "May";
     case 6:
-      return "June";
+      return shorten ? "Jun" : "June";
     case 7:
-      return "July";
+      return shorten ? "Jul" : "July";
     case 8:
-      return "August";
+      return shorten ? "Aug" : "August";
     case 9:
-      return "September";
+      return shorten ? "Sep" : "September";
     case 10:
-      return "October";
+      return shorten ? "Oct" : "October";
     case 11:
-      return "November";
+      return shorten ? "Nov" : "November";
     default:
-      return "December";
+      return shorten ? "Dec" : "December";
   }
 }
 
@@ -120,14 +121,15 @@ Future<void> launchSocialMediaUrl(String url) async {
   await launchUrl(destination, mode: LaunchMode.externalApplication);
 }
 
-Future<void> launchContactUrl(String contact, {String countryCode = "+234"}) async {
-  if(contact.isEmpty) return;
+Future<void> launchContactUrl(String contact,
+    {String countryCode = "+234"}) async {
+  if (contact.isEmpty) return;
   Uri number = Uri.parse("tel:$countryCode${contact.substring(1)}");
   await launchUrl(number);
 }
 
-
-Future<void> launchEmail(String address, {String emailSubject = "", String emailBody = ""}) async {
+Future<void> launchEmail(String address,
+    {String emailSubject = "", String emailBody = ""}) async {
   String email = Uri.encodeComponent(address);
   String subject = Uri.encodeComponent("Playbucks:$emailSubject");
   String body = Uri.encodeComponent(emailBody);

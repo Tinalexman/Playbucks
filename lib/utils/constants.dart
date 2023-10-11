@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 const Color theme = Color.fromARGB(255, 245, 245, 245);
-const Color mainGold = Color.fromARGB(255, 234, 163, 45);
+const Color mainGold = Color(0xFFE99231);
+
+
+const Color theme60 = Color.fromRGBO(245, 245, 245, 0.6);
+
+
 const Color niceBlue = Color.fromARGB(255, 73, 121, 209);
 const Color possibleGreen = Color.fromARGB(255, 0, 158, 96);
 const Color goodYellow = Color.fromARGB(255, 252, 163, 17);
-const Color primary = Color(0xCC08062B);
-const Color fadedPrimary = Color.fromARGB(25, 31, 31, 31);
+const Color primary = Color.fromRGBO(18, 17, 19, 1.0);
+const Color fadedPrimary = Color.fromARGB(255, 22, 22, 22);
 const Color midPrimary = Color.fromARGB(255, 65, 65, 65);
 const Color neutral = Color.fromARGB(180, 200, 200, 200);
-const Color neutral2 = Color.fromARGB(35, 152, 152, 152);
+const Color neutral2 = Color(0xFF424242);
 const Color neutral3 = Color.fromARGB(255, 165, 165, 165);
 const Color statusColor = Color.fromARGB(255, 229, 229, 229);
 const Color offWhite = Color.fromRGBO(224, 224, 224, 1.0);
