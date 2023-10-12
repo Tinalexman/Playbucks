@@ -44,6 +44,10 @@ class Pages {
   static const String onboarding = 'onboarding';
   static const String login = 'login';
   static const String register = 'register';
+  static const String forgotPassword = 'forgot-password';
+  static const String passwordReset = 'password-reset';
+  static const String authInfo = 'auth-info';
+  static const String pushNotify = 'push-notifications';
   static const String artisteDashboard = 'dashboard-artiste';
   static const String listenerDashboard = 'dashboard-listener';
   static const String withdraw = 'withdraw';

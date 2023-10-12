@@ -172,14 +172,11 @@ class _SplashPageState extends State<SplashPage>
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           SvgPicture.asset("assets/Google svg.svg"),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Continue with Google",
-                              style: context.textTheme.bodyLarge!.copyWith(
-                                fontWeight: FontWeight.w500,
-                                color: theme,
-                              ),
+                          Text(
+                            "Continue with Google",
+                            style: context.textTheme.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: theme,
                             ),
                           ),
                         ],

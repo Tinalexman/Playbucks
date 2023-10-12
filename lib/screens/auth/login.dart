@@ -78,7 +78,7 @@ class _LoginState extends ConsumerState<LoginPage> {
                           return null;
                         },
                         onSave: (value) => _authDetails["email"] = value!,
-                        hint: "your email or username",
+                        hint: "e.g you@example.com",
                       ),
                       SizedBox(height: 24.h),
                       Text(
@@ -117,7 +117,7 @@ class _LoginState extends ConsumerState<LoginPage> {
                           return null;
                         },
                         onSave: (value) => _authDetails["password"] = value!,
-                        hint: "password",
+                        hint: "e.g 12345678",
                       ),
                       SizedBox(
                         height: 50.h,
@@ -142,7 +142,7 @@ class _LoginState extends ConsumerState<LoginPage> {
                       ),
                       Center(
                         child: GestureDetector(
-                          onTap: () => context.router.pushNamed(Pages.login),
+                          onTap: () => context.router.pushNamed(Pages.forgotPassword),
                           child: Text(
                             "Forgot password?",
                             textAlign: TextAlign.center,

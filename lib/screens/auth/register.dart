@@ -31,8 +31,24 @@ class _SignupState extends ConsumerState<RegisterPage> {
     "fullName": "",
   };
 
+  final Map<String, String> musicPreferences = {
+    "Pop": "assets/pop.jpg",
+    "Hip Hop": "assets/hip pop.jpg",
+    "Afro": "assets/afro.jpg",
+    "Rock": "assets/rock.jpg",
+    "Jazz": "assets/jazz.jpg",
+    "Rap": "assets/rap.jpg",
+  };
+
+  final Map<String, String> dspPreferences = {
+    "Spotify": "assets/Spotify svg.svg",
+    "Apple Music": "assets/Apple svg.svg",
+  };
+
   DateTime? pickedDate;
-  String? gender;
+  String? gender, dsp;
+
+  String music = "";
 
   bool showPassword = false, showConfirm = false;
   bool termsRead = false;
@@ -86,7 +102,7 @@ class _SignupState extends ConsumerState<RegisterPage> {
                     return null;
                   },
                   onSave: (value) => _authDetails["email"] = value!,
-                  hint: "your email",
+                  hint: "e.g you@example.com",
                 ),
                 SizedBox(height: 5.h),
                 Text(
@@ -129,7 +145,7 @@ class _SignupState extends ConsumerState<RegisterPage> {
                     return null;
                   },
                   onSave: (value) => _authDetails["password"] = value!,
-                  hint: "password",
+                  hint: "e.g 12345678",
                 ),
                 SizedBox(height: 5.h),
                 Text(
@@ -172,7 +188,7 @@ class _SignupState extends ConsumerState<RegisterPage> {
                     return null;
                   },
                   onSave: (value) => _authDetails["password"] = value!,
-                  hint: "password",
+                  hint: "e.g 12345678",
                 ),
                 SizedBox(height: 5.h),
                 Text(
@@ -251,7 +267,7 @@ class _SignupState extends ConsumerState<RegisterPage> {
             height: 40.h,
             controller: usernameController,
             type: TextInputType.text,
-            hint: "Username",
+            hint: "e.g JohnnyDoe",
             prefix: SizedBox(
               height: 40.h,
               width: 30.w,
@@ -280,8 +296,8 @@ class _SignupState extends ConsumerState<RegisterPage> {
             onPressed: () => setState(() => ++pageIndex),
             child: Text(
               "Next",
-              style: context.textTheme.bodyLarge!.copyWith(
-                  color: Colors.black, fontWeight: FontWeight.w600),
+              style: context.textTheme.bodyLarge!
+                  .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
             ),
           ),
         ],
@@ -314,10 +330,11 @@ class _SignupState extends ConsumerState<RegisterPage> {
                   const Icon(Icons.calendar_month_rounded, color: Colors.grey),
               onPressed: () async {
                 pickedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(1950),
-                    lastDate: DateTime(2100));
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(1950),
+                  lastDate: DateTime(2100),
+                );
                 if (pickedDate != null) {
                   setState(
                     () => ageController.text = formatDateTime(pickedDate!,
@@ -346,7 +363,7 @@ class _SignupState extends ConsumerState<RegisterPage> {
           ComboBox(
             hint: "Select your gender",
             value: gender,
-            buttonWidth: 200.w,
+            buttonWidth: 370.w,
             dropdownItems: const ["Male", "Female", "Other"],
             onChanged: (item) => setState(() => gender = item),
           ),
@@ -368,7 +385,9 @@ class _SignupState extends ConsumerState<RegisterPage> {
           ),
         ],
       );
-    } else if(pageIndex == 3) {
+    } else if (pageIndex == 3) {
+      List<String> musicKeys = musicPreferences.keys.toList();
+
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -377,10 +396,64 @@ class _SignupState extends ConsumerState<RegisterPage> {
             style: context.textTheme.bodyLarge!.copyWith(color: theme60),
           ),
           SizedBox(height: 50.h),
-
-
           SizedBox(
-            height: 350.h,
+            height: 450.h,
+            width: 370.w,
+            child: GridView.builder(
+              itemCount: musicKeys.length,
+              itemBuilder: (_, index) => Container(
+                width: 160.w,
+                height: 105.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.r),
+                  image: DecorationImage(
+                    image: AssetImage(musicPreferences[musicKeys[index]]!),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Stack(
+                  children: [
+                    SizedBox(
+                      width: 165.w,
+                      height: 105.h,
+                      child: const ColoredBox(
+                        color: Colors.black38,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 160.w,
+                      height: 105.h,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            musicKeys[index],
+                            style: context.textTheme.titleLarge!
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(height: 24.h)
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      right: 0.w,
+                      child: Checkbox(
+                        value: music == musicKeys[index],
+                        onChanged: (val) =>
+                            setState(() => music = musicKeys[index]),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisExtent: 105.h,
+                mainAxisSpacing: 10.r,
+                crossAxisSpacing: 10.r,
+              ),
+            ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -398,6 +471,8 @@ class _SignupState extends ConsumerState<RegisterPage> {
         ],
       );
     } else {
+      List<String> dspKeys = dspPreferences.keys.toList();
+
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -405,10 +480,67 @@ class _SignupState extends ConsumerState<RegisterPage> {
             "Link your favorite streaming services. We'll never post without your permission.",
             style: context.textTheme.bodyLarge!.copyWith(color: theme60),
           ),
-          SizedBox(height: 50.h),
-
+          SizedBox(height: 24.h),
+          Text(
+            "What streaming platform do you use?",
+            style: context.textTheme.bodyMedium!
+                .copyWith(fontWeight: FontWeight.w500),
+          ),
+          SizedBox(height: 5.h),
+          ComboBox(
+            hint: "Select your platform",
+            value: dsp,
+            buttonWidth: 370.w,
+            dropdownItems: const ["Spotify", "Apple Music"],
+            onChanged: (item) => setState(() => dsp = item),
+          ),
+          if (dsp != null) SizedBox(height: 16.h),
+          if (dsp != null)
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                elevation: 1.0,
+                minimumSize: Size(320.w, 45.h),
+                maximumSize: Size(320.w, 45.h),
+              ),
+              onPressed: () {},
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SvgPicture.asset(
+                      "assets/${dsp! == "Spotify" ? "Spotify" : "Apple"} svg.svg"),
+                  Text(
+                    "Connect to ${dsp! == "Spotify" ? "Spotify" : "Apple Music"}",
+                    style: context.textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: primary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          SizedBox(height: 24.h),
+          Text(
+            "Disclaimers!",
+            style: context.textTheme.bodyLarge!
+                .copyWith(fontWeight: FontWeight.w500),
+          ),
+          SizedBox(height: 16.h),
+          Text(
+            "You can disconnect your streaming platforms or update your privacy preferences in the app's settings at any time.",
+            style: context.textTheme.bodyMedium!.copyWith(color: theme60),
+          ),
+          Text(
+            "By connecting your streaming platforms, you agree to allow Playbucks to access and analyze your music listening data to provide personalized recommendations and rewards.",
+            style: context.textTheme.bodyMedium!.copyWith(color: theme60),
+          ),
+          Text(
+            "Your data privacy is important to us. We will not share your streaming platform data with third parties without your consent.",
+            style: context.textTheme.bodyMedium!.copyWith(color: theme60),
+          ),
           SizedBox(
-            height: 350.h,
+            height: 100.h,
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -416,13 +548,37 @@ class _SignupState extends ConsumerState<RegisterPage> {
               elevation: 1.0,
               minimumSize: Size(390.w, 40.h),
             ),
-            onPressed: () => context.router.pushReplacementNamed(Pages.home),
+            onPressed: () => context.router.pushNamed(Pages.pushNotify),
             child: Text(
               "Sign up",
               style: context.textTheme.bodyLarge!
                   .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
             ),
           ),
+          SizedBox(height: 16.h),
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "By signing up, you agree to our ",
+                  style: context.textTheme.bodyMedium!.copyWith(color: theme60),
+                ),
+                TextSpan(
+                  text: "Terms and Conditions ",
+                  style: context.textTheme.bodyMedium!.copyWith(color: mainGold),
+                ),
+                TextSpan(
+                  text: "and ",
+                  style: context.textTheme.bodyMedium!.copyWith(color: theme60),
+                ),
+                TextSpan(
+                  text: "Privacy Policies.",
+                  style: context.textTheme.bodyMedium!.copyWith(color: mainGold),
+                ),
+              ]
+            ),
+          )
         ],
       );
     }
@@ -502,6 +658,71 @@ class _SignupState extends ConsumerState<RegisterPage> {
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class PushNotificationPage extends StatelessWidget {
+
+  const PushNotificationPage({super.key,});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 80.h,
+                  width: 160.w,
+                  child: const ColoredBox(
+                    color: neutral2,
+                  ),
+                ),
+                SizedBox(height: 40.h),
+                Text("Turn on push notifications.",
+                  style: context.textTheme.titleLarge!
+                      .copyWith(fontWeight: FontWeight.w600),
+                ),
+                SizedBox(height: 8.h),
+                Text("Get updates about new music, special offers, new rewards and more.",
+                  textAlign: TextAlign.center,
+                  style: context.textTheme.bodyMedium!.copyWith(color: theme60),
+                ),
+                SizedBox(height: 40.h),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 1.0,
+                    minimumSize: Size(200.w, 45.h),
+                    maximumSize: Size(200.w, 45.h),
+                    backgroundColor: mainGold,
+                  ),
+                  onPressed: () => context.router.pushReplacementNamed(Pages.home),
+                  child: Text(
+                    "Turn on notifications",
+                    style: context.textTheme.bodyLarge!
+                        .copyWith(fontWeight: FontWeight.w500, color: primary),
+                  ),
+                ),
+                SizedBox(height: 16.h),
+                GestureDetector(
+                  onTap: () => context.router.pushReplacementNamed(Pages.home),
+                  child: Text("Not Now",
+                    textAlign: TextAlign.center,
+                    style: context.textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

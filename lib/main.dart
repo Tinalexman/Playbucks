@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:playbucks/components/user.dart';
 import 'package:playbucks/managers/providers.dart';
 import 'package:playbucks/managers/theme.dart';
+import 'package:playbucks/screens/auth/forgot.dart';
 import 'package:playbucks/screens/auth/login.dart';
 import 'package:playbucks/screens/auth/register.dart';
 import 'package:playbucks/screens/auth/registration.dart';
@@ -31,9 +32,7 @@ class Playbucks extends StatefulWidget {
   State<Playbucks> createState() => _PlaybucksState();
 }
 
-
 class _PlaybucksState extends State<Playbucks> {
-
   late GoRouter router;
 
   @override
@@ -56,6 +55,26 @@ class _PlaybucksState extends State<Playbucks> {
           path: Pages.login.path,
           name: Pages.login,
           builder: (_, __) => const LoginPage(),
+        ),
+        GoRoute(
+            path: Pages.forgotPassword.path,
+            name: Pages.forgotPassword,
+            builder: (_, __) => const ForgotPasswordPage(),
+        ),
+        GoRoute(
+          path: Pages.passwordReset.path,
+          name: Pages.passwordReset,
+          builder: (_, __) => const PasswordResetPage(),
+        ),
+        GoRoute(
+          path: Pages.pushNotify.path,
+          name: Pages.pushNotify,
+          builder: (_, __) => const PushNotificationPage(),
+        ),
+        GoRoute(
+          path: Pages.authInfo.path,
+          name: Pages.authInfo,
+          builder: (_, state) => AuthInfoPage(infoState: state.extra as AuthInfoState),
         ),
         GoRoute(
           path: Pages.register.path,
@@ -124,7 +143,8 @@ class _PlaybucksState extends State<Playbucks> {
           path: Pages.customArtistePage.path,
           name: Pages.customArtistePage,
           builder: (_, state) {
-            Map<String, dynamic> data = userData; //   state.extra! as Map<String, dynamic>;
+            Map<String, dynamic> data =
+                userData; //   state.extra! as Map<String, dynamic>;
             return CustomArtistePage(artiste: User.fromJson(data));
           },
         )
@@ -132,28 +152,25 @@ class _PlaybucksState extends State<Playbucks> {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      builder: (context, widget) =>
-          MaterialApp.router(
-            title: 'Playbucks',
-            debugShowCheckedModeBanner: false,
-            debugShowMaterialGrid: false,
-            darkTheme: FlexThemeData.dark(
-              fontFamily: "Nunito",
-              useMaterial3: true,
-              scheme: FlexScheme.gold,
-            ),
-            theme: FlexThemeData.dark(
-              fontFamily: "Nunito",
-              useMaterial3: true,
-              scheme: FlexScheme.gold,
-            ),
-            routerConfig: router,
-          ),
+      builder: (context, widget) => MaterialApp.router(
+        title: 'Playbucks',
+        debugShowCheckedModeBanner: false,
+        debugShowMaterialGrid: false,
+        darkTheme: FlexThemeData.dark(
+          fontFamily: "Nunito",
+          useMaterial3: true,
+          scheme: FlexScheme.gold,
+        ),
+        theme: FlexThemeData.dark(
+          fontFamily: "Nunito",
+          useMaterial3: true,
+          scheme: FlexScheme.gold,
+        ),
+        routerConfig: router,
+      ),
       splitScreenMode: true,
       designSize: const Size(375, 812),
       minTextAdapt: true,

@@ -146,7 +146,7 @@ class _HomeState extends ConsumerState<Home> {
                               ),
                               SizedBox(
                                 height: 100.h,
-                                width: 220.w,
+                                width: 210.w,
                                 child: ListView.separated(
                                   scrollDirection: Axis.horizontal,
                                   itemBuilder: (_, index) {
