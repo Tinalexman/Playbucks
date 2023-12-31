@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:playbucks/utils/constants.dart';
@@ -60,6 +61,42 @@ class PlayerControl extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class CustomGrouper extends TextInputFormatter {
+  final int? by;
+  final int then;
+
+  const CustomGrouper({this.by, required this.then,});
+
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    String text = newValue.text;
+
+    if(by != null && text.length == by!) {
+      return newValue;
+    }
+
+
+    String rest = "", firstGroup = "";
+
+    if(by != null) {
+      firstGroup = text.substring(0, by);
+      rest = text.substring(by!);
+    }
+
+    String source = "r'.{$then}'";
+    rest = rest.replaceAllMapped(RegExp(source), (match) => "${match.group(0)} ");
+    text = "$firstGroup $rest";
+    if(by == null) {
+      text = text.substring(1);
+    }
+
+    return TextEditingValue(
+      text: text,
+      selection: TextSelection.collapsed(offset: text.length),
     );
   }
 }
@@ -189,6 +226,9 @@ class Holder {
 
   Holder({required this.content, this.selected = false});
 }
+
+
+
 
 class ComboBox extends StatelessWidget {
   final String hint;

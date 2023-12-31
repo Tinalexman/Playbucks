@@ -85,7 +85,7 @@ class _HomeState extends ConsumerState<Home> {
                                 ref.watch(typeProvider.notifier).state = val!,
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () => context.router.pushNamed(Pages.settings),
                             icon: const Icon(
                               Icons.notifications_rounded,
                               color: Colors.white,
@@ -152,7 +152,7 @@ class _HomeState extends ConsumerState<Home> {
                                   itemBuilder: (_, index) {
                                     return GestureDetector(
                                       onTap: () => context.router.pushNamed(
-                                          Pages.customArtistePage, extra: user.toJson()
+                                          Pages.customArtistePage, extra: user
                                       ),
                                       child: Container(
                                         width: 120.w,

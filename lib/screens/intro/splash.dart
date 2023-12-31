@@ -94,11 +94,7 @@ class _SplashPageState extends State<SplashPage>
                 position: yAnimation,
                 child: ScaleTransition(
                   scale: zoomInAnimation,
-                  child: Text(
-                    "Playbucks",
-                    style: context.textTheme.titleMedium!
-                        .copyWith(color: mainGold),
-                  ),
+                  child: Image.asset("assets/Logo.png", width: 100.w, ),
                 ),
               ),
 

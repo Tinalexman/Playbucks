@@ -23,16 +23,6 @@ class _AlbumPageState extends State<AlbumPage> {
   @override
   void initState() {
     super.initState();
-    _album = Album(
-      name: "Work of Art",
-      artiste: User.fromJson(userData),
-      songs: const [
-        Song(name: "Lonely At The Top"),
-        Song(name: "Remember"),
-        Song(name: "Terminator"),
-        Song(name: "Yoga Yoga"),
-      ],
-    );
 
   }
 

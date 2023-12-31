@@ -6,6 +6,7 @@ const Color mainGold = Color(0xFFE99231);
 
 
 const Color theme60 = Color.fromRGBO(245, 245, 245, 0.6);
+const Color theme40 = Color.fromRGBO(245, 245, 245, 0.4);
 
 
 const Color niceBlue = Color.fromARGB(255, 73, 121, 209);
@@ -19,13 +20,7 @@ const Color neutral2 = Color(0xFF424242);
 const Color neutral3 = Color.fromARGB(255, 165, 165, 165);
 const Color statusColor = Color.fromARGB(255, 229, 229, 229);
 const Color offWhite = Color.fromRGBO(224, 224, 224, 1.0);
-
-const Color playerDominant = Color(0xFF90A098);
-const Color playerMutedDark = Color(0xFF685060);
-const Color playerMutedLight = Color(0xFFA0C0B0);
-
-const Color homeDominant = Color(0xFF252E33);
-const Color homeMutedDark = Color(0xFF13151C);
+const Color redError = Color(0xFFFF3A3A);
 
 extension PathExtension on String {
   String get path => "/$this";
@@ -60,6 +55,20 @@ class Pages {
   static const String customArtistePage = 'custom-artiste';
   static const String editProfile = 'edit-profile';
   static const String playlist = 'playlist';
+  static const String settings = 'settings';
+  static const String accountSettings = 'account-settings';
+  static const String changeEmail = 'change-email';
+  static const String changePassword = 'change-password';
+  static const String notificationPreference = 'notification-preference';
+  static const String notificationFrequency = 'notification-frequency';
+  static const String languageAndRegion = 'language-and-region';
+  static const String selectLanguage = 'select-language';
+  static const String selectRegion = 'select-region';
+  static const String appUpdate = 'update-app';
+  static const String about = 'about';
+  static const String help = 'help';
+  static const String accounts = 'accounts';
+  static const String faq = 'faq';
 }
 
 const String loremIpsum =

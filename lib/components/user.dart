@@ -6,11 +6,13 @@ class User extends Equatable {
   final String username;
   final String cover;
   final String bio;
+  final String email;
 
   final double balance;
 
   const User({
-    required this.fullName,
+    this.fullName = "",
+    this.email = "",
     this.id = "",
     this.username = "",
     this.bio = "",
@@ -18,22 +20,6 @@ class User extends Equatable {
     this.cover = "",
   });
 
-  User.fromJson(Map<String, dynamic> map)
-      : id = map["id"],
-        fullName = map["fullName"],
-        username = map["username"],
-        cover = map["cover"],
-        bio = map["bio"],
-        balance = (map["balance"] as num).toDouble();
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "fullName": fullName,
-        "username": username,
-        "cover": cover,
-        "bio": bio,
-        "balance": balance,
-      };
 
   @override
   List<Object?> get props => [id];

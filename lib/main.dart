@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:playbucks/components/user.dart';
 import 'package:playbucks/managers/providers.dart';
-import 'package:playbucks/managers/theme.dart';
 import 'package:playbucks/screens/auth/forgot.dart';
 import 'package:playbucks/screens/auth/login.dart';
 import 'package:playbucks/screens/auth/register.dart';
@@ -19,6 +18,14 @@ import 'package:playbucks/screens/payment/deposit.dart';
 import 'package:playbucks/screens/payment/withdraw.dart';
 import 'package:playbucks/screens/player/player.dart';
 import 'package:playbucks/screens/player/album.dart';
+import 'package:playbucks/screens/settings/about.dart';
+import 'package:playbucks/screens/settings/account.dart';
+import 'package:playbucks/screens/settings/accounts.dart';
+import 'package:playbucks/screens/settings/help.dart';
+import 'package:playbucks/screens/settings/language.dart';
+import 'package:playbucks/screens/settings/settings.dart';
+import 'package:playbucks/screens/settings/notification.dart';
+import 'package:playbucks/screens/settings/update.dart';
 import 'package:playbucks/utils/constants.dart';
 
 void main() {
@@ -57,9 +64,9 @@ class _PlaybucksState extends State<Playbucks> {
           builder: (_, __) => const LoginPage(),
         ),
         GoRoute(
-            path: Pages.forgotPassword.path,
-            name: Pages.forgotPassword,
-            builder: (_, __) => const ForgotPasswordPage(),
+          path: Pages.forgotPassword.path,
+          name: Pages.forgotPassword,
+          builder: (_, __) => const ForgotPasswordPage(),
         ),
         GoRoute(
           path: Pages.passwordReset.path,
@@ -74,7 +81,8 @@ class _PlaybucksState extends State<Playbucks> {
         GoRoute(
           path: Pages.authInfo.path,
           name: Pages.authInfo,
-          builder: (_, state) => AuthInfoPage(infoState: state.extra as AuthInfoState),
+          builder: (_, state) =>
+              AuthInfoPage(infoState: state.extra as AuthInfoState),
         ),
         GoRoute(
           path: Pages.register.path,
@@ -104,10 +112,7 @@ class _PlaybucksState extends State<Playbucks> {
         GoRoute(
           path: Pages.mediaPlayer.path,
           name: Pages.mediaPlayer,
-          builder: (_, state) {
-            String path = state.extra as String;
-            return MediaPlayerPage(path: path);
-          },
+          builder: (_, state) => MediaPlayerPage(path: state.extra as String),
         ),
         GoRoute(
           path: Pages.home.path,
@@ -140,13 +145,81 @@ class _PlaybucksState extends State<Playbucks> {
           builder: (_, __) => const AlbumPage(),
         ),
         GoRoute(
+          path: Pages.settings.path,
+          name: Pages.settings,
+          builder: (_, __) => const SettingsPage(),
+        ),
+        GoRoute(
+          path: Pages.accountSettings.path,
+          name: Pages.accountSettings,
+          builder: (_, __) => const AccountSettingsPage(),
+        ),
+        GoRoute(
+          path: Pages.changeEmail.path,
+          name: Pages.changeEmail,
+          builder: (_, __) => const ChangeEmailPage(),
+        ),
+        GoRoute(
+          path: Pages.changePassword.path,
+          name: Pages.changePassword,
+          builder: (_, __) => const ChangePasswordPage(),
+        ),
+        GoRoute(
+          path: Pages.notificationPreference.path,
+          name: Pages.notificationPreference,
+          builder: (_, __) => const NotificationPreferencePage(),
+        ),
+        GoRoute(
+          path: Pages.notificationFrequency.path,
+          name: Pages.notificationFrequency,
+          builder: (_, state) =>
+              NotificationFrequency(preference: state.extra as NotificationPreference),
+        ),
+        GoRoute(
+          path: Pages.faq.path,
+          name: Pages.faq,
+          builder: (_, __) => const FAQPage(),
+        ),
+        GoRoute(
+          path: Pages.languageAndRegion.path,
+          name: Pages.languageAndRegion,
+          builder: (_, __) => const LanguageRegionPage(),
+        ),
+        GoRoute(
+          path: Pages.selectLanguage.path,
+          name: Pages.selectLanguage,
+          builder: (_, __) => const SelectLanguagePage(),
+        ),
+        GoRoute(
+          path: Pages.selectRegion.path,
+          name: Pages.selectRegion,
+          builder: (_, __) => const SelectRegionPage(),
+        ),
+        GoRoute(
+          path: Pages.appUpdate.path,
+          name: Pages.appUpdate,
+          builder: (_, __) => const AppUpdatePage(),
+        ),
+        GoRoute(
+          path: Pages.accounts.path,
+          name: Pages.accounts,
+          builder: (_, __) => const AccountsPage(),
+        ),
+        GoRoute(
+          path: Pages.about.path,
+          name: Pages.about,
+          builder: (_, __) => const AboutPage(),
+        ),
+        GoRoute(
+          path: Pages.help.path,
+          name: Pages.help,
+          builder: (_, __) => const HelpPage(),
+        ),
+        GoRoute(
           path: Pages.customArtistePage.path,
           name: Pages.customArtistePage,
-          builder: (_, state) {
-            Map<String, dynamic> data =
-                userData; //   state.extra! as Map<String, dynamic>;
-            return CustomArtistePage(artiste: User.fromJson(data));
-          },
+          builder: (_, state) =>
+              CustomArtistePage(artiste: state.extra as User),
         )
       ],
     );
