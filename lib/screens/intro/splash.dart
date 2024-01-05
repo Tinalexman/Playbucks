@@ -121,7 +121,7 @@ class _SplashPageState extends State<SplashPage>
                         minimumSize: Size(320.w, 45.h),
                         maximumSize: Size(320.w, 45.h),
                       ),
-                      onPressed: () => context.router.pushNamed(Pages.register),
+                      onPressed: () => context.router.pushNamed(Pages.onboarding),
                       child: Text(
                         "Sign up for free",
                         style: context.textTheme.bodyLarge!.copyWith(

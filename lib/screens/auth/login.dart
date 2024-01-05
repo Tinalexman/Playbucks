@@ -134,7 +134,7 @@ class _LoginState extends ConsumerState<LoginPage> {
                         child: Text(
                           "Log In",
                           style: context.textTheme.bodyLarge!.copyWith(
-                              fontWeight: FontWeight.w500, color: primary),
+                            fontWeight: FontWeight.w500, color: primary),
                         ),
                       ),
                       SizedBox(
