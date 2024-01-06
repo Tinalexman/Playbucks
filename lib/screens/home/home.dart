@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:playbucks/managers/providers.dart';
 import 'package:playbucks/components/user.dart';
 import 'package:playbucks/utils/constants.dart';
-import 'package:playbucks/api/file_manager.dart';
+import 'package:playbucks/utils/functions.dart';
 import 'package:playbucks/utils/widgets.dart';
 
 class Home extends ConsumerStatefulWidget {
@@ -18,6 +16,26 @@ class Home extends ConsumerStatefulWidget {
 
 class _HomeState extends ConsumerState<Home> {
   final List<String> _songs = [];
+  final TextEditingController searchController = TextEditingController();
+  final FocusNode searchFocus = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+
+    searchFocus.addListener(() {
+      if (searchFocus.hasFocus) {
+        unFocus();
+        context.router.pushNamed(Pages.search);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +44,7 @@ class _HomeState extends ConsumerState<Home> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,35 +63,13 @@ class _HomeState extends ConsumerState<Home> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           CircleAvatar(
-                            radius: 18.r,
-                            backgroundColor: user.cover.isEmpty ? neutral2 : Colors.transparent,
-                            backgroundImage: user.cover.isEmpty ? null : FileImage(File(user.cover)),
-                            child: user.cover.isEmpty
-                                ? Text(
-                                    user.fullName.substring(0, 1),
-                                    style: context.textTheme.headlineSmall,
-                                  )
-                                : null,
+                            radius: 20.r,
+                            backgroundColor: theme,
+                            backgroundImage: AssetImage(user.cover),
                           ),
                           SizedBox(
                             width: 10.w,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Hello, ${user.username}",
-                                style: context.textTheme.bodyMedium!
-                                    .copyWith(color: Colors.white),
-                              ),
-                              Text(
-                                "Welcome back",
-                                style: context.textTheme.headlineSmall!
-                                    .copyWith(
-                                        fontSize: 18.sp, color: Colors.white),
-                              ),
-                            ],
-                          )
                         ],
                       ),
                       Row(
@@ -85,12 +81,23 @@ class _HomeState extends ConsumerState<Home> {
                                 ref.watch(typeProvider.notifier).state = val!,
                           ),
                           IconButton(
-                            onPressed: () => context.router.pushNamed(Pages.settings),
+                            onPressed: () =>
+                                context.router.pushNamed(Pages.settings),
+                            icon: const Icon(
+                              Icons.settings_rounded,
+                              color: Colors.white,
+                            ),
+                            splashRadius: 20.r,
+                            iconSize: 22.r,
+                          ),
+                          IconButton(
+                            onPressed: () =>
+                                context.router.pushNamed(Pages.notifications),
                             icon: const Icon(
                               Icons.notifications_rounded,
                               color: Colors.white,
                             ),
-                            splashRadius: 0.01,
+                            splashRadius: 20.r,
                             iconSize: 22.r,
                           ),
                         ],
@@ -98,141 +105,155 @@ class _HomeState extends ConsumerState<Home> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 100.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          GestureDetector(
-                            onTap: () => context.router.pushNamed(Pages.playlist),
-                            child: Container(
-                              width: 120.w,
-                              height: 200.h,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: mainGold,
-                                borderRadius: BorderRadius.circular(20.r),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.redAccent.withOpacity(0.2),
-                                    spreadRadius: 2.0,
-                                    blurRadius: 0.8,
-                                  )
-                                ],
-                              ),
-                              child: Text(
-                                "Work Of Art",
-                                style: context.textTheme.bodyMedium!
-                                    .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Trending right now!",
-                                style: context.textTheme.headlineSmall!
-                                    .copyWith(color: Colors.white),
-                              ),
-                              SizedBox(
-                                height: 50.h,
-                              ),
-                              SizedBox(
-                                height: 100.h,
-                                width: 210.w,
-                                child: ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (_, index) {
-                                    return GestureDetector(
-                                      onTap: () => context.router.pushNamed(
-                                          Pages.customArtistePage, extra: user
-                                      ),
-                                      child: Container(
-                                        width: 120.w,
-                                        height: 100.h,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                          color: mainGold,
-                                          borderRadius:
-                                              BorderRadius.circular(20.r),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.redAccent
-                                                  .withOpacity(0.2),
-                                              spreadRadius: 2.0,
-                                              blurRadius: 0.8,
-                                            )
-                                          ],
-                                        ),
-                                        child: Text(
-                                          "Album ${index + 1}",
-                                          style: context.textTheme.bodyMedium!
-                                              .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  separatorBuilder: (_, __) =>
-                                      SizedBox(width: 10.w),
-                                  itemCount: 5,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 50.h,
-                      ),
-                      Text(
-                        "Recently Played",
-                        style: context.textTheme.bodyMedium!
-                            .copyWith(color: Colors.white),
-                      ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      SizedBox(
-                        height: 100.h,
-                        width: 390.w,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (_, index) {
-                            return Container(
-                              width: 130.w,
-                              height: 100.h,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: mainGold,
-                                borderRadius: BorderRadius.circular(20.r),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.redAccent.withOpacity(0.2),
-                                    spreadRadius: 2.0,
-                                    blurRadius: 0.8,
-                                  )
-                                ],
-                              ),
-                              child: Text(
-                                "Song ${index + 1}",
-                                style: context.textTheme.bodyMedium!
-                                    .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (_, __) => SizedBox(width: 10.w),
-                          itemCount: 5,
+                SizedBox(height: 10.h),
+                Text(
+                  "Welcome back, ${user.username}",
+                  style: context.textTheme.headlineSmall!
+                      .copyWith(fontSize: 18.sp, color: Colors.white),
+                ),
+                SizedBox(height: 10.h),
+                SpecialForm(
+                  controller: searchController,
+                  focus: searchFocus,
+                  width: 390.w,
+                  height: 40.h,
+                  hint: "What are you looking for?",
+                  prefix: SizedBox(
+                    height: 40.h,
+                    width: 40.h,
+                    child: Icon(
+                      Icons.search_rounded,
+                      color: mainGold,
+                      size: 26.r,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 50.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () => context.router.pushNamed(Pages.playlist),
+                      child: Container(
+                        width: 120.w,
+                        height: 200.h,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: mainGold,
+                          borderRadius: BorderRadius.circular(20.r),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.redAccent.withOpacity(0.2),
+                              spreadRadius: 2.0,
+                              blurRadius: 0.8,
+                            )
+                          ],
+                        ),
+                        child: Text(
+                          "Work Of Art",
+                          style: context.textTheme.bodyMedium!.copyWith(
+                              color: Colors.black, fontWeight: FontWeight.w600),
                         ),
                       ),
-                      SizedBox(height: 50.h),
-                    ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Trending right now!",
+                          style: context.textTheme.headlineSmall!
+                              .copyWith(color: Colors.white),
+                        ),
+                        SizedBox(
+                          height: 50.h,
+                        ),
+                        SizedBox(
+                          height: 100.h,
+                          width: 210.w,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (_, index) {
+                              return GestureDetector(
+                                onTap: () => context.router.pushNamed(
+                                    Pages.customArtistePage,
+                                    extra: user),
+                                child: Container(
+                                  width: 120.w,
+                                  height: 100.h,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: mainGold,
+                                    borderRadius: BorderRadius.circular(20.r),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color:
+                                            Colors.redAccent.withOpacity(0.2),
+                                        spreadRadius: 2.0,
+                                        blurRadius: 0.8,
+                                      )
+                                    ],
+                                  ),
+                                  child: Text(
+                                    "Album ${index + 1}",
+                                    style: context.textTheme.bodyMedium!
+                                        .copyWith(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (_, __) => SizedBox(width: 10.w),
+                            itemCount: 5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 50.h,
+                ),
+                Text(
+                  "Recently Played",
+                  style: context.textTheme.bodyMedium!
+                      .copyWith(color: Colors.white),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                SizedBox(
+                  height: 100.h,
+                  width: 390.w,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (_, index) {
+                      return Container(
+                        width: 130.w,
+                        height: 100.h,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: mainGold,
+                          borderRadius: BorderRadius.circular(20.r),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.redAccent.withOpacity(0.2),
+                              spreadRadius: 2.0,
+                              blurRadius: 0.8,
+                            )
+                          ],
+                        ),
+                        child: Text(
+                          "Song ${index + 1}",
+                          style: context.textTheme.bodyMedium!.copyWith(
+                              color: Colors.black, fontWeight: FontWeight.w600),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (_, __) => SizedBox(width: 10.w),
+                    itemCount: 5,
                   ),
                 ),
                 SizedBox(height: 50.h),

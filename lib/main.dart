@@ -9,9 +9,13 @@ import 'package:playbucks/screens/auth/forgot.dart';
 import 'package:playbucks/screens/auth/login.dart';
 import 'package:playbucks/screens/auth/register.dart';
 import 'package:playbucks/screens/auth/registration.dart';
+import 'package:playbucks/screens/dashboard/followings.dart';
+import 'package:playbucks/screens/dashboard/rewards.dart';
 import 'package:playbucks/screens/home/home.dart';
 import 'package:playbucks/screens/dashboard/artiste.dart';
 import 'package:playbucks/screens/dashboard/listener.dart';
+import 'package:playbucks/screens/home/notifications.dart';
+import 'package:playbucks/screens/home/search.dart';
 import 'package:playbucks/screens/intro/onboarding.dart';
 import 'package:playbucks/screens/intro/splash.dart';
 import 'package:playbucks/screens/payment/deposit.dart';
@@ -172,8 +176,8 @@ class _PlaybucksState extends State<Playbucks> {
         GoRoute(
           path: Pages.notificationFrequency.path,
           name: Pages.notificationFrequency,
-          builder: (_, state) =>
-              NotificationFrequency(preference: state.extra as NotificationPreference),
+          builder: (_, state) => NotificationFrequency(
+              preference: state.extra as NotificationPreference),
         ),
         GoRoute(
           path: Pages.faq.path,
@@ -220,7 +224,27 @@ class _PlaybucksState extends State<Playbucks> {
           name: Pages.customArtistePage,
           builder: (_, state) =>
               CustomArtistePage(artiste: state.extra as User),
-        )
+        ),
+        GoRoute(
+          path: Pages.notifications.path,
+          name: Pages.notifications,
+          builder: (_, __) => const NotificationsPage(),
+        ),
+        GoRoute(
+          path: Pages.search.path,
+          name: Pages.search,
+          builder: (_, __) => const SearchPage(),
+        ),
+        GoRoute(
+          path: Pages.rewards.path,
+          name: Pages.rewards,
+          builder: (_, state) => RewardsPage(reward: state.extra as double),
+        ),
+        GoRoute(
+          path: Pages.followings.path,
+          name: Pages.followings,
+          builder: (_, __) => const FollowingsPage(),
+        ),
       ],
     );
   }
@@ -236,11 +260,59 @@ class _PlaybucksState extends State<Playbucks> {
           fontFamily: "Nunito",
           useMaterial3: true,
           scheme: FlexScheme.gold,
+          textTheme: TextTheme(
+            bodyLarge: TextStyle(
+              color: theme,
+              fontSize: 20.sp,
+            ),
+            bodyMedium: TextStyle(
+              color: theme,
+              fontSize: 16.sp,
+            ),
+            bodySmall: TextStyle(
+              color: theme,
+              fontSize: 12.sp,
+            ),
+            headlineSmall: TextStyle(
+              color: theme,
+              fontSize: 24.sp,
+              fontWeight: FontWeight.w600,
+            ),
+            headlineMedium: TextStyle(
+              color: theme,
+              fontSize: 28.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
         theme: FlexThemeData.dark(
           fontFamily: "Nunito",
           useMaterial3: true,
           scheme: FlexScheme.gold,
+          textTheme: TextTheme(
+            bodyLarge: TextStyle(
+              color: theme,
+              fontSize: 20.sp,
+            ),
+            bodyMedium: TextStyle(
+              color: theme,
+              fontSize: 16.sp,
+            ),
+            bodySmall: TextStyle(
+              color: theme,
+              fontSize: 12.sp,
+            ),
+            headlineSmall: TextStyle(
+              color: theme,
+              fontSize: 24.sp,
+              fontWeight: FontWeight.w600,
+            ),
+            headlineMedium: TextStyle(
+              color: theme,
+              fontSize: 28.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
         routerConfig: router,
       ),

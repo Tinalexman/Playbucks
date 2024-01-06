@@ -69,6 +69,10 @@ class Pages {
   static const String help = 'help';
   static const String accounts = 'accounts';
   static const String faq = 'faq';
+  static const String notifications = 'notifications';
+  static const String search = 'search';
+  static const String followings = 'followings';
+  static const String rewards = 'rewards';
 }
 
 const String loremIpsum =

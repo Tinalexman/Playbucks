@@ -341,9 +341,10 @@ class _EditProfileState extends ConsumerState<EditProfile> {
           icon: const Icon(Icons.chevron_left_rounded),
           onPressed: () => context.router.pop(),
         ),
+        centerTitle: true,
         title: Text(
           "Edit Profile",
-          style: context.textTheme.headlineSmall!.copyWith(fontSize: 20.sp),
+          style: context.textTheme.headlineSmall,
         ),
       ),
       body: SafeArea(

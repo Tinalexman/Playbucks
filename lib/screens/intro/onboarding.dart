@@ -73,17 +73,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: List.generate(
                   3,
-                  (index) => ConstrainedBox(
+                  (i) => ConstrainedBox(
                     constraints: BoxConstraints(
-                      minWidth: 60.w,
+                      minWidth: 100.w,
                       minHeight: 5.h,
-                      maxWidth: 60.w,
+                      maxWidth: 100.w,
                       maxHeight: 5.h,
                     ),
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(2.5.h),
-                        color: index == index ? mainGold : midPrimary,
+                        color: i == index ? mainGold : midPrimary,
                       ),
                     ),
                   ),
@@ -100,18 +100,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                   child: Text(
                     index < models.length - 1 ? "Skip" : "",
-                    style: context.textTheme.bodyMedium!.copyWith(
+                    style: context.textTheme.bodyLarge!.copyWith(
                         color: mainGold,
                         fontWeight: FontWeight.w700,
                         decoration: TextDecoration.underline,
-                        decorationThickness: 1.5.h),
+                        decorationThickness: 1.5.h,
+                        decorationColor: mainGold,
+                    ),
                   ),
                 ),
               ),
               SizedBox(height: 20.h),
               SizedBox(
                 width: 428.w,
-                height: 500.h,
+                height: 530.h,
                 child: PageView.builder(
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
@@ -152,7 +154,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               index == models.length - 1
                   ? GestureDetector(
                       onTap: () =>
-                          context.router.pushReplacementNamed(Pages.register),
+                          context.router.pushNamed(Pages.register),
                       child: Container(
                         width: 400.w,
                         height: 50.h,
@@ -193,7 +195,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               color: i == 0 && index == 0
                                   ? mainGold.withOpacity(0.4)
                                   : mainGold,
-                              borderRadius: BorderRadius.circular(15.r),
+                              borderRadius: BorderRadius.circular(10.r),
                             ),
                             alignment: Alignment.center,
                             child: Icon(

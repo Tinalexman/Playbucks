@@ -389,7 +389,7 @@ class Copyright extends StatelessWidget {
         SizedBox(width: 3.w),
         Text(
           "${DateTime.now().year}. Playbucks. All rights reserved",
-          style: context.textTheme.bodySmall!.copyWith(color: Colors.grey),
+          style: context.textTheme.bodyMedium!.copyWith(color: Colors.grey),
         ),
       ],
     );
