@@ -5,9 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:playbucks/utils/constants.dart';
 
-final Widget loader = SpinKitFadingFour(
+const Widget loader = SpinKitFadingFour(
   color: mainGold,
-  size: 25.r,
+  size: 25,
 );
 
 class PlayerControl extends StatelessWidget {

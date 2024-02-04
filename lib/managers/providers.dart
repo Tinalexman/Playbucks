@@ -6,7 +6,7 @@ import 'package:playbucks/components/notification.dart';
 
 export 'package:playbucks/components/notification.dart';
 
-const User dummyUser = User(
+User dummyUser = User(
   fullName: "John Doe",
   username: "johnny",
   email: "johndoe@mail.com",
@@ -17,6 +17,7 @@ const User dummyUser = User(
       "tincidunt erat, sed vehicula ligula ullamcorper at. In in tortor ipsum. "
       "Nullam et malesuada libero. Curabitur ultricies erat dui, sit amet porttitor "
       "neque finibus sit amet. Integer id massa risus.",
+  joined: DateTime.now(),
 );
 
 final StateProvider<User> currentUserProvider =

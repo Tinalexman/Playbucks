@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:animated_switcher_plus/animated_switcher_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:playbucks/api/user_service.dart';
 import 'package:playbucks/utils/constants.dart';
 import 'package:playbucks/utils/widgets.dart';
 import 'package:playbucks/utils/functions.dart';
@@ -10,10 +11,10 @@ class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ForgotPasswordPage> createState() => _LoginState();
+  ConsumerState<ForgotPasswordPage> createState() => _ForgotPasswordState();
 }
 
-class _LoginState extends ConsumerState<ForgotPasswordPage> {
+class _ForgotPasswordState extends ConsumerState<ForgotPasswordPage> {
   final TextEditingController _emailControl = TextEditingController();
   bool showPassword = false;
 
@@ -21,6 +22,34 @@ class _LoginState extends ConsumerState<ForgotPasswordPage> {
   void dispose() {
     _emailControl.dispose();
     super.dispose();
+  }
+
+  void navigate() {
+    context.router
+        .pushNamed(Pages.authInfo, extra: AuthInfoState.resetEmailSent);
+  }
+
+  void forgot() {
+    passwordDetails({"email": _emailControl.text.trim()}, reset: false)
+        .then((resp) {
+      if (!mounted) return;
+      if (!resp.success) {
+        showError(resp.message);
+        return;
+      } else {
+        navigate();
+      }
+    });
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Dialog(
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        child: loader,
+      ),
+    );
   }
 
   @override
@@ -69,7 +98,7 @@ class _LoginState extends ConsumerState<ForgotPasswordPage> {
                   type: TextInputType.emailAddress,
                   onValidate: (value) {
                     if (value!.trim().isEmpty || !value.contains("@")) {
-                      showError(context, "Invalid Email Address");
+                      showError("Invalid Email Address");
                       return '';
                     }
                     return null;
@@ -86,8 +115,7 @@ class _LoginState extends ConsumerState<ForgotPasswordPage> {
                     maximumSize: Size(320.w, 45.h),
                     backgroundColor: mainGold,
                   ),
-                  onPressed: () => context.router.pushNamed(Pages.authInfo,
-                      extra: AuthInfoState.resetEmailSent),
+                  onPressed: forgot,
                   child: Text(
                     "Reset Password",
                     style: context.textTheme.bodyLarge!
@@ -121,6 +149,37 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
     password.dispose();
     confirm.dispose();
     super.dispose();
+  }
+
+  void navigate() {
+    context.router
+        .pushNamed(Pages.authInfo, extra: AuthInfoState.resetEmailSent);
+  }
+
+  void reset() {
+    passwordDetails({
+      "email": password.text.trim(),
+      "resetCode": confirm.text.trim(),
+    }, reset: true)
+        .then((resp) {
+      if (!mounted) return;
+      if (!resp.success) {
+        showError(resp.message);
+        return;
+      } else {
+        navigate();
+      }
+    });
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Dialog(
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        child: loader,
+      ),
+    );
   }
 
   @override
@@ -184,7 +243,7 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
                   ),
                   onValidate: (value) {
                     if (value!.length < 8) {
-                      showError(context,
+                      showError(
                           "Password is too short. Use at least 8 characters");
                       return '';
                     }
@@ -221,7 +280,7 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
                   ),
                   onValidate: (value) {
                     if (value!.length < 8) {
-                      showError(context,
+                      showError(
                           "Password is too short. Use at least 8 characters");
                       return '';
                     }
@@ -239,8 +298,9 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
                     maximumSize: Size(320.w, 45.h),
                     backgroundColor: mainGold,
                   ),
-                  onPressed: () =>
-                      context.router.pushReplacementNamed(Pages.authInfo, extra: AuthInfoState.resetPasswordSuccess),
+                  onPressed: () => context.router.pushReplacementNamed(
+                      Pages.authInfo,
+                      extra: AuthInfoState.resetPasswordSuccess),
                   child: Text(
                     "Reset Password",
                     style: context.textTheme.bodyLarge!
@@ -304,7 +364,7 @@ class AuthInfoPage extends StatelessWidget {
                     backgroundColor: mainGold,
                   ),
                   onPressed: () {
-                    if(infoState == AuthInfoState.resetEmailSent) {
+                    if (infoState == AuthInfoState.resetEmailSent) {
                       context.router.pushNamed(Pages.passwordReset);
                     } else {
                       context.router.goNamed(Pages.login);

@@ -7,6 +7,8 @@ class User extends Equatable {
   final String cover;
   final String bio;
   final String email;
+  
+  final DateTime joined;
 
   final double balance;
 
@@ -18,9 +20,19 @@ class User extends Equatable {
     this.bio = "",
     this.balance = 0.0,
     this.cover = "",
+    required this.joined,
   });
 
 
   @override
   List<Object?> get props => [id];
+
+  factory User.fromJson(Map<String, dynamic> map) {
+    return User(
+      id: map["_id"],
+      email: map["email"],
+      fullName: "${map["firstName"]} ${map["lastName"]}",
+      joined: DateTime.parse(map["createdAt"])
+    );
+  }
 }

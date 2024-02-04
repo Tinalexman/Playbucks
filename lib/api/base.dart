@@ -1,15 +1,10 @@
-import 'dart:developer';
 import 'package:dio/dio.dart';
 
 export 'dart:developer';
 export 'package:dio/dio.dart';
 export 'package:playbucks/utils/constants.dart';
 
-
-//const String baseURL = "http://192.168.43.169:9099";
-const String baseURL = "https://king-david-elites.onrender.com";
-const String success = "successful";
-const String users = "/users";
+const String baseURL = "https://playbucks.onrender.com";
 
 const String imgPrefix = "data:image/jpeg;base64,";
 const String vidPrefix = "data:image/mp4;base64,";
@@ -23,18 +18,22 @@ String? token;
 
 // final Map<String, List<Function>> _socketManager = {};
 
-final Dio dio = Dio(BaseOptions(
-  baseUrl: baseURL,
-  receiveTimeout: const Duration(minutes: 5),
-  connectTimeout: const Duration(minutes: 5),
-  sendTimeout: const Duration(minutes: 5),
-));
+final Dio dio = Dio(
+  BaseOptions(
+    baseUrl: baseURL,
+    receiveTimeout: const Duration(seconds: 90),
+    connectTimeout: const Duration(seconds: 90),
+    sendTimeout: const Duration(seconds: 90),
+  ),
+);
 
-final Options configuration = Options(headers: {
-  "Content-Type": "application/json",
-  "Accept": "application/json",
-  "Authorization": "Bearer ${token!}"
-});
+final Options configuration = Options(
+  headers: {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer ${token!}"
+  },
+);
 
 void init(String userID) {
   // _socket = io(
@@ -69,7 +68,6 @@ void init(String userID) {
   //     handler(data);
   //   }
   // });
-
 }
 
 // void addHandler(String key, Function handler) => _socketManager[key]?.add(handler);
@@ -80,23 +78,14 @@ void init(String userID) {
 //
 // void shutdown() => _socket?.disconnect();
 
-class DataListing<T> {
-  final int total;
-  final List<T> data;
-
-  const DataListing({required this.total, required this.data});
-}
-
-class PlaybucksApiResponse<T>
-{
+class PlaybucksResponse<T> {
   final String message;
-  final Status status;
+  final bool success;
   final T value;
 
-  const PlaybucksApiResponse({required this.value, required this.message, required this.status});
-}
-
-enum Status {
-  failed,
-  success
+  const PlaybucksResponse({
+    required this.value,
+    required this.message,
+    required this.success,
+  });
 }

@@ -303,7 +303,7 @@ class _ChangeEmailPage extends State<ChangeEmailPage> {
                 type: TextInputType.emailAddress,
                 onValidate: (value) {
                   if (value!.trim().isEmpty || !value.contains("@")) {
-                    showError(context, "Invalid Email Address");
+                    showError("Invalid Email Address");
                     return '';
                   }
                   return null;

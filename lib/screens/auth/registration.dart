@@ -1,10 +1,7 @@
 import 'dart:io';
-import 'dart:typed_data';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:playbucks/api/file_manager.dart';
@@ -365,7 +362,7 @@ class _ListenerMusicPreferencePageState
                   onPressed: () {
                     String name = _name.text.trim();
                     if (name.isEmpty) {
-                      showError(context, "No name was provided");
+                      showError("No name was provided");
                       return;
                     }
 
@@ -747,9 +744,13 @@ class _ListenerDemographicPageState extends State<_ListenerDemographicPage> {
       _education,
       _languages,
       _notification,
-      _dsp
-  ;
-  int? _genderIndex, _occupationIndex, _educationIndex, _notificationIndex, _dspIndex;
+      _dsp;
+
+  int? _genderIndex,
+      _occupationIndex,
+      _educationIndex,
+      _notificationIndex,
+      _dspIndex;
 
   @override
   void initState() {
@@ -1051,23 +1052,22 @@ class _ListenerDemographicPageState extends State<_ListenerDemographicPage> {
                   spacing: 5.0,
                   children: List.generate(
                     _dsp.length,
-                        (index) => GestureDetector(
+                    (index) => GestureDetector(
                       onTap: () => setState(() => _dspIndex = index),
                       child: Chip(
                         label: Text(
                           _dsp[index].content,
                           style: context.textTheme.bodyMedium!.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: (_dspIndex == null ||
-                                  _dspIndex! != index)
+                              color: (_dspIndex == null || _dspIndex! != index)
                                   ? null
                                   : Colors.black),
                         ),
                         elevation: 1,
-                        backgroundColor: (_dspIndex == null ||
-                            _dspIndex! != index)
-                            ? neutral2
-                            : mainGold,
+                        backgroundColor:
+                            (_dspIndex == null || _dspIndex! != index)
+                                ? neutral2
+                                : mainGold,
                       ),
                     ),
                   ),
@@ -1237,8 +1237,8 @@ class _ListenerRegistrationState extends State<ListenerRegistration> {
       ),
       _ListenerDemographicPage(onNext: next),
       PrivacyPolicyPage(
-          onFinish: () => context.router.pushReplacementNamed(Pages.home),
-          header: "Privacy and Data Consent (5 of 5)",
+        onFinish: () => context.router.pushReplacementNamed(Pages.home),
+        header: "Privacy and Data Consent (5 of 5)",
       ),
     ];
   }
@@ -1264,7 +1264,8 @@ class _ArtisteProfileSetup extends StatefulWidget {
 }
 
 class _ArtisteProfileSetupState extends State<_ArtisteProfileSetup> {
-  final TextEditingController _name = TextEditingController(), _username = TextEditingController();
+  final TextEditingController _name = TextEditingController(),
+      _username = TextEditingController();
   String? _coverImage;
 
   @override
@@ -1324,15 +1325,15 @@ class _ArtisteProfileSetupState extends State<_ArtisteProfileSetup> {
                         width: 200.w,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.r),
-                            color: _coverImage == null
-                                ? neutral2
-                                : Colors.transparent,
-                            image: _coverImage == null
-                                ? null
-                                : DecorationImage(
-                                    image: FileImage(File(_coverImage!)),
-                                    fit: BoxFit.cover),
+                          borderRadius: BorderRadius.circular(10.r),
+                          color: _coverImage == null
+                              ? neutral2
+                              : Colors.transparent,
+                          image: _coverImage == null
+                              ? null
+                              : DecorationImage(
+                                  image: FileImage(File(_coverImage!)),
+                                  fit: BoxFit.cover),
                         ),
                         child: _coverImage == null
                             ? Column(
@@ -1667,7 +1668,7 @@ class _ArtisteMusicDetailsPageState extends State<_ArtisteMusicDetailsPage> {
                   onPressed: () {
                     String name = _name.text.trim();
                     if (name.isEmpty) {
-                      showError(context, "No name was provided");
+                      showError("No name was provided");
                       return;
                     }
 
@@ -1806,10 +1807,10 @@ class _ArtisteBiographyPageState extends State<_ArtisteBiographyPage> {
                         style: context.textTheme.bodyMedium!
                             .copyWith(fontWeight: FontWeight.w600)),
                     SpecialForm(
-                        controller: _spotify,
-                        width: 250.w,
-                        height: 35.h,
-                        hint: "Enter your Spotify profile link",
+                      controller: _spotify,
+                      width: 250.w,
+                      height: 35.h,
+                      hint: "Enter your Spotify profile link",
                     ),
                   ],
                 ),
@@ -1820,15 +1821,16 @@ class _ArtisteBiographyPageState extends State<_ArtisteBiographyPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Apple Music",
-                        style: context.textTheme.bodyMedium!
-                            .copyWith(fontWeight: FontWeight.w600),
+                    Text(
+                      "Apple Music",
+                      style: context.textTheme.bodyMedium!
+                          .copyWith(fontWeight: FontWeight.w600),
                     ),
                     SpecialForm(
-                        controller: _apple,
-                        width: 250.w,
-                        height: 35.h,
-                        hint: "Enter your Apple Music profile link",
+                      controller: _apple,
+                      width: 250.w,
+                      height: 35.h,
+                      hint: "Enter your Apple Music profile link",
                     ),
                   ],
                 ),
@@ -1839,15 +1841,16 @@ class _ArtisteBiographyPageState extends State<_ArtisteBiographyPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Audiomack",
-                        style: context.textTheme.bodyMedium!
-                            .copyWith(fontWeight: FontWeight.w600),
+                    Text(
+                      "Audiomack",
+                      style: context.textTheme.bodyMedium!
+                          .copyWith(fontWeight: FontWeight.w600),
                     ),
                     SpecialForm(
-                        controller: _sc,
-                        width: 250.w,
-                        height: 35.h,
-                        hint: "Enter your Audiomack profile link",
+                      controller: _sc,
+                      width: 250.w,
+                      height: 35.h,
+                      hint: "Enter your Audiomack profile link",
                     ),
                   ],
                 ),

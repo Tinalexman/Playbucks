@@ -3,6 +3,9 @@ import 'package:animated_switcher_plus/animated_switcher_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:playbucks/api/user_service.dart';
+import 'package:playbucks/components/user.dart';
+import 'package:playbucks/managers/providers.dart';
 import 'package:playbucks/utils/constants.dart';
 import 'package:playbucks/utils/functions.dart';
 import 'package:playbucks/utils/widgets.dart';
@@ -68,6 +71,33 @@ class _SignupState extends ConsumerState<RegisterPage> {
     super.dispose();
   }
 
+  void navigate(User? user) {
+    ref.watch(currentUserProvider.notifier).state = user!;
+    context.router.pushNamed(Pages.home);
+  }
+
+  void register() {
+    authenticate(_authDetails, login: false).then((resp) {
+      if (!mounted) return;
+      if (!resp.success) {
+        showError(resp.message);
+        return;
+      } else {
+        navigate(resp.value);
+      }
+    });
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Dialog(
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        child: loader,
+      ),
+    );
+  }
+
   Widget get child {
     if (pageIndex == 0) {
       return Column(
@@ -96,7 +126,7 @@ class _SignupState extends ConsumerState<RegisterPage> {
                   controller: emailController,
                   onValidate: (value) {
                     if (value!.trim().isEmpty) {
-                      showError(context, "Please fill in your email.");
+                      showError("Please fill in your email.");
                       return '';
                     }
                     return null;
@@ -138,8 +168,7 @@ class _SignupState extends ConsumerState<RegisterPage> {
                   ),
                   onValidate: (value) {
                     if (value!.length < 8) {
-                      showError(context,
-                          "Password is too short. Use at least 8 characters");
+                      showError("Password is too short. Use at least 8 characters");
                       return '';
                     }
                     return null;
@@ -181,8 +210,7 @@ class _SignupState extends ConsumerState<RegisterPage> {
                   ),
                   onValidate: (value) {
                     if (value!.length < 8) {
-                      showError(context,
-                          "Password is too short. Use at least 8 characters");
+                      showError("Password is too short. Use at least 8 characters");
                       return '';
                     }
                     return null;
@@ -345,8 +373,7 @@ class _SignupState extends ConsumerState<RegisterPage> {
             ),
             onValidate: (value) {
               if (value!.length < 8) {
-                showError(context,
-                    "Password is too short. Use at least 8 characters");
+                showError("Password is too short. Use at least 8 characters");
                 return '';
               }
               return null;

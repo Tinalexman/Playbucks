@@ -481,12 +481,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                       minimumSize: Size(100.w, 35.h),
                     ),
                     onPressed: () {
-                      ref.watch(currentUserProvider.notifier).state = User(
-                          cover: cover,
-                          fullName: _nameController.text.trim(),
-                          username: _usernameController.text.trim(),
-                          bio: _bioController.text.trim(),
-                      );
+
                       context.router.pop();
                     },
                     child: Text(

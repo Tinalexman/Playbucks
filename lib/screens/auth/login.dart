@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:animated_switcher_plus/animated_switcher_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:playbucks/api/user_service.dart';
+import 'package:playbucks/components/user.dart';
+import 'package:playbucks/managers/providers.dart';
 import 'package:playbucks/utils/constants.dart';
 import 'package:playbucks/utils/widgets.dart';
 import 'package:playbucks/utils/functions.dart';
@@ -14,11 +17,38 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginState extends ConsumerState<LoginPage> {
-  final GlobalKey<FormState> _formKey = GlobalKey();
+  final GlobalKey<FormState> formKey = GlobalKey();
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _emailControl = TextEditingController();
   final Map<String, String> _authDetails = {"email": "", "password": ""};
   bool showPassword = false;
+
+  void navigate(User? user) {
+    ref.watch(currentUserProvider.notifier).state = user!;
+    context.router.pushNamed(Pages.home);
+  }
+
+  void login() {
+    authenticate(_authDetails, login: true).then((resp) {
+      if (!mounted) return;
+      if (!resp.success) {
+        showError(resp.message);
+        return;
+      } else {
+        navigate(resp.value);
+      }
+    });
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Dialog(
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        child: loader,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +84,7 @@ class _LoginState extends ConsumerState<LoginPage> {
                 ),
                 SizedBox(height: 24.h),
                 Form(
-                  key: _formKey,
+                  key: formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +102,7 @@ class _LoginState extends ConsumerState<LoginPage> {
                         type: TextInputType.emailAddress,
                         onValidate: (value) {
                           if (value!.trim().isEmpty || !value.contains("@")) {
-                            showError(context, "Invalid Email Address");
+                            showError("Invalid Email Address");
                             return '';
                           }
                           return null;
@@ -110,7 +140,7 @@ class _LoginState extends ConsumerState<LoginPage> {
                         ),
                         onValidate: (value) {
                           if (value!.length < 8) {
-                            showError(context,
+                            showError(
                                 "Password is too short. Use at least 8 characters");
                             return '';
                           }
@@ -129,28 +159,31 @@ class _LoginState extends ConsumerState<LoginPage> {
                           maximumSize: Size(320.w, 45.h),
                           backgroundColor: mainGold,
                         ),
-                        onPressed: () =>
-                            context.router.pushReplacementNamed(Pages.home),
+                        onPressed: () {
+                          if(!validateForm(formKey)) return;
+
+                          login();
+                        },
                         child: Text(
                           "Log In",
                           style: context.textTheme.bodyLarge!.copyWith(
-                            fontWeight: FontWeight.w500, color: primary),
+                              fontWeight: FontWeight.w500, color: primary),
                         ),
                       ),
                       SizedBox(
                         height: 26.h,
                       ),
                       Center(
-                        child: GestureDetector(
-                          onTap: () => context.router.pushNamed(Pages.forgotPassword),
-                          child: Text(
-                            "Forgot password?",
-                            textAlign: TextAlign.center,
-                            style: context.textTheme.bodyLarge!
-                                .copyWith(color: theme),
-                          ),
-                        )
-                      ),
+                          child: GestureDetector(
+                        onTap: () =>
+                            context.router.pushNamed(Pages.forgotPassword),
+                        child: Text(
+                          "Forgot password?",
+                          textAlign: TextAlign.center,
+                          style: context.textTheme.bodyLarge!
+                              .copyWith(color: theme),
+                        ),
+                      )),
                     ],
                   ),
                 ),
